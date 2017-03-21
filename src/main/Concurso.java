@@ -439,7 +439,7 @@ public class Concurso {
 		System.out.println(format.format(aux.getDataConcurso()));
 		System.out.print("Modalidade do concurso: ");
 		aux.setModalidade(user.nextLine());
-		System.out.print("Comissão organizadora: ");
+		System.out.print("Comissao organizadora: ");
 		aux.setComissao(user.nextLine());
 		System.out.print("Valor da inscrição: ");
 		aux.setValorInscricao(user.nextDouble());
@@ -463,7 +463,7 @@ public class Concurso {
 		for (int i = 0; i < aux.getBanca().size(); i++) {
 			System.out.println(i + ": " + aux.getBanca().get(i).getNome());
 		}
-		//aux.publicarEdital();
+		aux.publicarEdital();
 		// A adição de participantes vai ficar em outra parte
 		return aux;
 	}

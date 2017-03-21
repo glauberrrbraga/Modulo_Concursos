@@ -39,8 +39,8 @@ public class Main {
 		int aux = 0;
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
-			System.out.println("1: Agendamento\n2: Editar concursos");
-			System.out.print("Digite um numero com a opção desejada: ");
+			System.out.println("1: Agendamento\n2: Editar concursos\n3: Sair");
+			System.out.print("Digite um numero com a opcao desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
 			case 1:
@@ -59,7 +59,7 @@ public class Main {
 				aux = 10;
 				break;
 			default:
-				System.out.println("Opção inválida");
+				System.out.println("Opcao invalida");
 				break;
 
 			}
