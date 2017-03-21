@@ -52,7 +52,7 @@ public class Main {
 				}
 				System.out.print("Selecione o concurso que deseja editar: ");
 				aux = user.nextInt();
-				concursos.get(aux).editarConcurso();
+				concursos.get(aux).editarConcurso(docentes);
 				break;
 			default:
 				System.out.println("Opção inválida");

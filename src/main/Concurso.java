@@ -131,16 +131,16 @@ public class Concurso {
 		return concursosCadastrados;
 	}
 
-	public void editarConcurso() throws ParseException {
+	public void editarConcurso(ArrayList<Docente> docentes) throws ParseException {
 		Scanner user = new Scanner(System.in);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		System.out.println("ID do concurso: " + this.getId());
-		System.out.println("Digite a opção desejada:\n1: Editar datas\n2: Adicionar participantes ");
+		System.out.println("Digite a opção desejada:\n1: Editar datas\n2: Editar banca");
 		int entrada = user.nextInt();
 		String aux1;
 		if (entrada == 1) {
 			System.out.println(
-					"1: Editar data de realizaÃ§Ã£o do concurso\n2: Editar data de termino das inscrições\n3: Editar data de inicio da inscriÃ§Ãµes");
+					"1: Editar data de realização do concurso\n2: Editar data de termino das inscrições\n3: Editar data de inicio da inscrições");
 			entrada = user.nextInt();
 			user.nextLine();
 			if (entrada == 1) {
@@ -165,7 +165,7 @@ public class Concurso {
 					this.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
 				}
 
-			}else if(entrada == 3){
+			} else if (entrada == 3) {
 				System.out.print("Data de inicio das inscrições(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
@@ -175,10 +175,44 @@ public class Concurso {
 					aux1 = user.nextLine();
 					this.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
 				}
+
+			}
+		} else if (entrada == 2) {
+			System.out.println("Editar a banca. \n");
+			System.out.println("1: Adicionar docentes a banca\n2: Remover docentes da banca\n");
+			System.out.print("Opção deejada: ");
+			entrada = user.nextInt();
+			if (entrada == 1) {
+				System.out.println("Adicionar docentes a banca.");
+				for (int i = 0; i < docentes.size(); i++) {
+					System.out.println(i + ": " + docentes.get(i).getNome());
+				}
+				System.out.print("Selecione o docente que deseja adicionar a banca: ");
+				entrada = user.nextInt();
+
+				if (entrada < docentes.size() && !this.getBanca().contains(docentes.get(entrada))) {
+					this.addBanca(docentes.get(entrada));
+				} else if (entrada < docentes.size() && this.getBanca().contains(docentes.get(entrada))) {
+					System.out.println("Você associou esse docente a esse concurso.");
+				} else {
+					System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
+				}
+
+			}else if(entrada == 2){
+				for (int i = 0; i < this.getBanca().size(); i++) {
+					System.out.println(i + ": " + docentes.get(i).getNome());
+				}
+				System.out.print("Digite o docente que deseja remover da banca: ");
+				entrada = user.nextInt();
+				
+				if (entrada < docentes.size()) {
+					this.getBanca().remove(entrada);
+				} else {
+					System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
+				}
 				
 			}
 		}
-		user.close();
 	}
 
 	public static Concurso agendamento(ArrayList<Docente> docentes, ArrayList<Servidor> servidores)
@@ -260,7 +294,6 @@ public class Concurso {
 		for (int i = 0; i < aux.getBanca().size(); i++) {
 			System.out.println(i + ": " + aux.getBanca().get(i).getNome());
 		}
-		user.close();
 		// A adição de participantes vai ficar em outra parte
 		return aux;
 	}
