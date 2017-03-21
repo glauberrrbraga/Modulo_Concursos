@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class Concurso {
@@ -155,7 +156,7 @@ public class Concurso {
 	    //Ele agora vai escrever no arquivo aberto
 	    gravarArq.printf(this.edital.getDetalhes());
 	    gravarArq.printf("\n");
-	    gravarArq.printf("Data de realiza��o do concurso: ");
+	    gravarArq.printf("Data de realização do concurso: ");
 	    gravarArq.print(this.dataConcurso);
 	    edital.close();
 	}
@@ -164,52 +165,132 @@ public class Concurso {
 		Scanner user = new Scanner(System.in);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		System.out.println("ID do concurso: " + this.getId());
-		System.out.println("Digite a op��o desejada:\n1: Editar datas\n2: Editar banca");
+		System.out.println("Digite a opção desejada:\n1: Editar datas\n2: Editar banca");
 		int entrada = user.nextInt();
 		String aux1;
 		if (entrada == 1) {
 			System.out.println(
-					"1: Editar data de realiza��o do concurso\n2: Editar data de termino das inscri��es\n3: Editar data de inicio da inscri��es");
+					"1: Editar data de realização do concurso\n2: Editar data de termino das inscrições\n3: Editar data de inicio da inscrições");
 			entrada = user.nextInt();
 			user.nextLine();
+			
+			GregorianCalendar data = new GregorianCalendar();
+			String date = format.format(data.getTime());
+			Date dateaux = new Date(format.parse(date).getTime());
+			
 			if (entrada == 1) {
-				System.out.print("Data de realiza��o do concurso(dd/MM/aaaa): ");
+				System.out.print("Data de realização do concurso(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
-					this.setDataConcurso(new Date(format.parse(aux1).getTime()));
+					Date date2 = new Date(format.parse(aux1).getTime());
+					
+					if(dateaux.compareTo(date2) > 0){
+						System.out.println("Essa data já passou");
+					}
+					else if (dateaux.compareTo(date2) == 0){
+						System.out.println("Você não pode marcar o concurso para hoje");
+					}
+					else{
+						this.setDataConcurso(date2);
+					}
 				} catch (Exception e) {
 					System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 					aux1 = user.nextLine();
-					this.setDataConcurso(new Date(format.parse(aux1).getTime()));
+					Date date2 = new Date(format.parse(aux1).getTime());
+					
+					if(dateaux.compareTo(date2) > 0){
+						System.out.println("Essa data já passou");
+					}
+					else if (dateaux.compareTo(date2) == 0){
+						System.out.println("Você não pode marcar o concurso para hoje");
+					}
+					else{
+						this.setDataConcurso(date2);
+					}
 				}
 
 			} else if (entrada == 2) {
-				System.out.print("Data de termino das inscr��es(dd/MM/aaaa): ");
+				System.out.print("Data de termino das inscrições(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
-					this.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
+					Date newdate = new Date(format.parse(aux1).getTime());
+					
+					if(newdate.compareTo(this.getDataInicioInscricao()) < 0){
+						System.out.println("Essa data é anterior à data de início de inscrição");
+					}
+					else if(newdate.compareTo(this.getDataInicioInscricao()) == 0){
+						System.out.println("Essa é a mesma data de inscrição");
+					}
+					else if(newdate.compareTo(this.getDataConcurso()) >= 0){
+						System.out.println("essa data é posterior a data de realização do concurso");
+					}
+					else{
+						this.setDataTerminoInscricao(newdate);
+					}
 				} catch (Exception e) {
 					System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 					aux1 = user.nextLine();
-					this.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
+					Date newdate = new Date(format.parse(aux1).getTime());
+					
+					if(newdate.compareTo(this.getDataInicioInscricao()) < 0){
+						System.out.println("Essa data é anterior à data de início de inscrição");
+					}
+					else if(newdate.compareTo(this.getDataInicioInscricao()) == 0){
+						System.out.println("Essa é a mesma data de inscrição");
+					}
+					else if(newdate.compareTo(this.getDataConcurso()) >= 0){
+						System.out.println("essa data é igual/posterior a data de realização do concurso");
+					}
+					else{
+						this.setDataTerminoInscricao(newdate);
+					}
 				}
 
 			} else if (entrada == 3) {
-				System.out.print("Data de inicio das inscri��es(dd/MM/aaaa): ");
+				System.out.print("Data de inicio das inscrições(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
-					this.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
+					Date newdate = new Date(format.parse(aux1).getTime());
+					
+					if(newdate.compareTo(dateaux) < 0){
+						System.out.println("essa data já passou");
+					}
+					else if(newdate.compareTo(this.getDataConcurso()) > 0){
+						System.out.println("essa data é posterior à data de realização do concruso");
+					}
+					else if(newdate.compareTo(this.getDataTerminoInscricao()) > 0){
+						System.out.println("essa data é posterior ao termino das inscrições");
+					}
+					else{
+						this.setDataInicioInscricao(newdate);
+					}
+					
 				} catch (Exception e) {
 					System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 					aux1 = user.nextLine();
-					this.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
+					Date newdate = new Date(format.parse(aux1).getTime());
+					
+					if(newdate.compareTo(dateaux) < 0){
+						System.out.println("essa data já passou");
+					}
+					else if(newdate.compareTo(this.getDataConcurso()) > 0){
+						System.out.println("essa data é posterior à data de realização do concruso");
+					}
+					else if(newdate.compareTo(this.getDataTerminoInscricao()) > 0){
+						System.out.println("essa data é posterior ao termino das inscrições");
+					}
+					else{
+						this.setDataInicioInscricao(newdate);
+					}
+
 				}
 
 			}
+			
 		} else if (entrada == 2) {
 			System.out.println("Editar a banca. \n");
 			System.out.println("1: Adicionar docentes a banca\n2: Remover docentes da banca\n");
-			System.out.print("Op��o deejada: ");
+			System.out.print("Opção deejada: ");
 			entrada = user.nextInt();
 			if (entrada == 1) {
 				System.out.println("Adicionar docentes a banca.");
@@ -222,9 +303,9 @@ public class Concurso {
 				if (entrada < docentes.size() && !this.getBanca().contains(docentes.get(entrada))) {
 					this.addBanca(docentes.get(entrada));
 				} else if (entrada < docentes.size() && this.getBanca().contains(docentes.get(entrada))) {
-					System.out.println("Voc� associou esse docente a esse concurso.");
+					System.out.println("Você associou esse docente a esse concurso.");
 				} else {
-					System.out.println("N�o foi encontrado o Docente correspondente. Tente novamente.");
+					System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
 				}
 
 			} else if (entrada == 2) {
@@ -237,7 +318,7 @@ public class Concurso {
 				if (entrada < docentes.size()) {
 					this.getBanca().remove(entrada);
 				} else {
-					System.out.println("N�o foi encontrado o Docente correspondente. Tente novamente.");
+					System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
 				}
 
 			}
@@ -246,7 +327,7 @@ public class Concurso {
 
 	public static Concurso agendamento(ArrayList<Docente> docentes, ArrayList<Servidor> servidores)
 			throws ParseException, IOException {
-		System.out.println("Agendamento.\nAntes, � necess�rio cadastrar um novo concurso");
+		System.out.println("Agendamento.\nAntes, é necessário cadastrar um novo concurso");
 		Concurso aux = new Concurso();
 		int entrada;
 		Scanner user = new Scanner(System.in);
@@ -255,19 +336,19 @@ public class Concurso {
 		System.out.println("ID do Concurso: " + aux.getId());
 		System.out.print("Nome: ");
 		aux.setNome(user.nextLine());
-		System.out.print("Supervisor (servidor responsável): ");
+		System.out.print("Supervisor (servidor responsÃ¡vel): ");
 		System.out.println("Servidores Cadastrados: ");
 		for (int i = 0; i < servidores.size(); i++) {
 			System.out.println(i + ": " + servidores.get(i).getNome());
 		}
-		System.out.print("Digite o código correspondente ao servidor desejado: ");
+		System.out.print("Digite o cÃ³digo correspondente ao servidor desejado: ");
 		entrada = user.nextInt();
 		user.nextLine();
 		aux.supervisor = servidores.get(entrada);
 		System.out.println(aux.getSupervisor().getNome());
 
 		String aux1;
-		System.out.print("Data de inicio das inscri��es(dd/MM/aaaa): ");
+		System.out.print("Data de inicio das inscrições(dd/MM/aaaa): ");
 		try {
 			aux1 = user.nextLine();
 			aux.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
@@ -277,7 +358,7 @@ public class Concurso {
 			aux.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
 		}
 		System.out.println(format.format(aux.getDataInicioInscricao()));
-		System.out.print("Data de termino das inscri��es(dd/MM/aaaa): ");
+		System.out.print("Data de termino das inscrições(dd/MM/aaaa): ");
 		try {
 			aux1 = user.nextLine();
 			aux.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
@@ -288,7 +369,7 @@ public class Concurso {
 		}
 		System.out.println(format.format(aux.getDataTerminoInscricao()));
 
-		System.out.print("Data de realiza��o do concurso(dd/MM/aaaa): ");
+		System.out.print("Data de realização do concurso(dd/MM/aaaa): ");
 		try {
 			aux1 = user.nextLine();
 			aux.setDataConcurso(new Date(format.parse(aux1).getTime()));
@@ -300,9 +381,9 @@ public class Concurso {
 		System.out.println(format.format(aux.getDataConcurso()));
 		System.out.print("Modalidade do concurso: ");
 		aux.setModalidade(user.nextLine());
-		System.out.print("Comiss�o organizadora: ");
+		System.out.print("Comissão organizadora: ");
 		aux.setComissao(user.nextLine());
-		System.out.print("Valor da inscri��o: ");
+		System.out.print("Valor da inscrição: ");
 		aux.setValorInscricao(user.nextDouble());
 		System.out.println("Adicionar docentes a Banca.");
 		for (int i = 0; i < docentes.size(); i++) {
@@ -314,9 +395,9 @@ public class Concurso {
 			if (entrada < docentes.size() && !aux.getBanca().contains(docentes.get(entrada))) {
 				aux.addBanca(docentes.get(entrada));
 			} else if (entrada < docentes.size() && aux.getBanca().contains(docentes.get(entrada))) {
-				System.out.println("Voc� associou esse docente a esse concurso.");
+				System.out.println("Você associou esse docente a esse concurso.");
 			} else {
-				System.out.println("N�o foi encontrado o Docente correspondente. Tente novamente.");
+				System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
 			}
 			System.out.println("Para sair, digite '99'.");
 		}
@@ -324,7 +405,7 @@ public class Concurso {
 			System.out.println(i + ": " + aux.getBanca().get(i).getNome());
 		}
 		aux.publicarEdital();
-		// A adi��o de participantes vai ficar em outra parte
+		// A adição de participantes vai ficar em outra parte
 		return aux;
 	}
 
