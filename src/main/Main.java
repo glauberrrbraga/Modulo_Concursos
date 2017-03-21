@@ -19,7 +19,7 @@ public class Main {
 			} else if (i == 1) {
 				aux1.setNome("Leony");
 			} else {
-				aux1.setNome("Vit√≥ria");
+				aux1.setNome("VitÛria");
 			}
 			docentes.add(aux1);
 		}
@@ -39,7 +39,7 @@ public class Main {
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
 			System.out.println("1: Agendamento\n2: Editar concursos");
-			System.out.print("Digite um numero com a op√ß√£o desejada: ");
+			System.out.print("Digite um numero com a opÁ„o desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
 			case 1:
@@ -55,7 +55,7 @@ public class Main {
 				concursos.get(aux).editarConcurso();
 				break;
 			default:
-				System.out.println("Op√ß√£o inv√°lida");
+				System.out.println("OpÁ„o inv·lida");
 				break;
 
 			}

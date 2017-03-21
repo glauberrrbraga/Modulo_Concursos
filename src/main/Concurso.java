@@ -135,16 +135,16 @@ public class Concurso {
 		Scanner user = new Scanner(System.in);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		System.out.println("ID do concurso: " + this.getId());
-		System.out.println("Digite a opÃ§Ã£o desejada:\n1: Editar datas\n2: Adicionar participantes ");
+		System.out.println("Digite a opção desejada:\n1: Editar datas\n2: Adicionar participantes ");
 		int entrada = user.nextInt();
 		String aux1;
 		if (entrada == 1) {
 			System.out.println(
-					"1: Editar data de realizaÃ§Ã£o do concurso\n2: Editar data de termino das inscriÃ§Ãµes\n3: Editar data de inicio da inscriÃ§Ãµes");
+					"1: Editar data de realizaÃ§Ã£o do concurso\n2: Editar data de termino das inscrições\n3: Editar data de inicio da inscriÃ§Ãµes");
 			entrada = user.nextInt();
 			user.nextLine();
 			if (entrada == 1) {
-				System.out.print("Data de realizaÃ§Ã£o do concurso(dd/MM/aaaa): ");
+				System.out.print("Data de realização do concurso(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
 					this.setDataConcurso(new Date(format.parse(aux1).getTime()));
@@ -155,7 +155,7 @@ public class Concurso {
 				}
 
 			} else if (entrada == 2) {
-				System.out.print("Data de termino das inscriÃ§Ãµes(dd/MM/aaaa): ");
+				System.out.print("Data de termino das inscrções(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
 					this.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
@@ -166,7 +166,7 @@ public class Concurso {
 				}
 
 			}else if(entrada == 3){
-				System.out.print("Data de inicio das inscriÃ§Ãµes(dd/MM/aaaa): ");
+				System.out.print("Data de inicio das inscrições(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
 					this.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
@@ -183,7 +183,7 @@ public class Concurso {
 
 	public static Concurso agendamento(ArrayList<Docente> docentes, ArrayList<Servidor> servidores)
 			throws ParseException {
-		System.out.println("Agendamento.\nAntes, Ã© necessÃ¡rio cadastrar um novo concurso");
+		System.out.println("Agendamento.\nAntes, é necessário cadastrar um novo concurso");
 		Concurso aux = new Concurso();
 		int entrada;
 		Scanner user = new Scanner(System.in);
@@ -206,7 +206,7 @@ public class Concurso {
 		System.out.println(aux.getSupervisor().getNome());
 
 		String aux1;
-		System.out.print("Data de inicio das inscriÃ§Ãµes(dd/MM/aaaa): ");
+		System.out.print("Data de inicio das inscrições(dd/MM/aaaa): ");
 		try {
 			aux1 = user.nextLine();
 			aux.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
@@ -216,7 +216,7 @@ public class Concurso {
 			aux.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
 		}
 		System.out.println(format.format(aux.getDataInicioInscricao()));
-		System.out.print("Data de termino das inscriÃ§Ãµes(dd/MM/aaaa): ");
+		System.out.print("Data de termino das inscrições(dd/MM/aaaa): ");
 		try {
 			aux1 = user.nextLine();
 			aux.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
@@ -227,7 +227,7 @@ public class Concurso {
 		}
 		System.out.println(format.format(aux.getDataTerminoInscricao()));
 
-		System.out.print("Data de realizaÃ§Ã£o do concurso(dd/MM/aaaa): ");
+		System.out.print("Data de realização do concurso(dd/MM/aaaa): ");
 		try {
 			aux1 = user.nextLine();
 			aux.setDataConcurso(new Date(format.parse(aux1).getTime()));
@@ -251,9 +251,9 @@ public class Concurso {
 			if (entrada < docentes.size() && !aux.getBanca().contains(docentes.get(entrada))) {
 				aux.addBanca(docentes.get(entrada));
 			} else if (entrada < docentes.size() && aux.getBanca().contains(docentes.get(entrada))) {
-				System.out.println("VocÃª jÃ¡ associou esse docente a esse concurso.");
+				System.out.println("Você associou esse docente a esse concurso.");
 			} else {
-				System.out.println("NÃ£o foi encontrado o Docente correspondente. Tente novamente.");
+				System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
 			}
 			System.out.println("Para sair, digite '99'.");
 		}
@@ -261,7 +261,7 @@ public class Concurso {
 			System.out.println(i + ": " + aux.getBanca().get(i).getNome());
 		}
 		user.close();
-		// A adiÃ§Ã£o de participantes vai ficar em outra parte
+		// A adição de participantes vai ficar em outra parte
 		return aux;
 	}
 
