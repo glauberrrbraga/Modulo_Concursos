@@ -336,48 +336,106 @@ public class Concurso {
 		System.out.println("ID do Concurso: " + aux.getId());
 		System.out.print("Nome: ");
 		aux.setNome(user.nextLine());
-		System.out.print("Supervisor (servidor responsÃ¡vel): ");
+		System.out.print("Supervisor (servidor responsável): ");
 		System.out.println("Servidores Cadastrados: ");
 		for (int i = 0; i < servidores.size(); i++) {
 			System.out.println(i + ": " + servidores.get(i).getNome());
 		}
-		System.out.print("Digite o cÃ³digo correspondente ao servidor desejado: ");
+		System.out.print("Digite o código correspondente ao servidor desejado: ");
 		entrada = user.nextInt();
 		user.nextLine();
 		aux.supervisor = servidores.get(entrada);
 		System.out.println(aux.getSupervisor().getNome());
 
+		GregorianCalendar data = new GregorianCalendar();
+		String date = format.format(data.getTime());
+		Date dateaux = new Date(format.parse(date).getTime());
 		String aux1;
+		boolean auxdate = false;
+		
 		System.out.print("Data de inicio das inscrições(dd/MM/aaaa): ");
-		try {
-			aux1 = user.nextLine();
-			aux.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
-		} catch (Exception e) {
-			System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
-			aux1 = user.nextLine();
-			aux.setDataInicioInscricao(new Date(format.parse(aux1).getTime()));
-		}
+		do{
+			try {
+				aux1 = user.nextLine();
+				Date newdate = new Date(format.parse(aux1).getTime());
+				if(newdate.compareTo(dateaux) < 0){
+					System.out.println("essa data já passou");
+					auxdate = false;
+				}
+				else{
+					aux.setDataInicioInscricao(newdate);
+					auxdate = true;
+				}
+			} catch (Exception e) {
+				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
+				aux1 = user.nextLine();
+				Date newdate = new Date(format.parse(aux1).getTime());
+				if(newdate.compareTo(dateaux) < 0){
+					System.out.println("essa data já passou");
+					auxdate = false;
+				}
+				else{
+					aux.setDataInicioInscricao(newdate);
+					auxdate = true;
+				}
+			}
+		}while(!auxdate);
 		System.out.println(format.format(aux.getDataInicioInscricao()));
 		System.out.print("Data de termino das inscrições(dd/MM/aaaa): ");
-		try {
-			aux1 = user.nextLine();
-			aux.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
-		} catch (Exception e) {
-			System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
-			aux1 = user.nextLine();
-			aux.setDataTerminoInscricao(new Date(format.parse(aux1).getTime()));
-		}
+		do{
+			try {
+				aux1 = user.nextLine();
+				Date newdate = new Date(format.parse(aux1).getTime());
+				if(newdate.compareTo(aux.getDataInicioInscricao()) <= 0){
+					System.out.println("essa data é anterior/igual a de inicio das inscricoes");
+					auxdate = false;
+				}
+				else{
+					aux.setDataTerminoInscricao(newdate);
+					auxdate = true;
+				}
+			} catch (Exception e) {
+				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
+				aux1 = user.nextLine();
+				Date newdate = new Date(format.parse(aux1).getTime());
+				if(newdate.compareTo(aux.getDataInicioInscricao()) <= 0){
+					System.out.println("essa data é anterior/igual a de inicio das inscricoes");
+					auxdate = false;
+				}
+				else{
+					aux.setDataTerminoInscricao(newdate);
+					auxdate = true;
+				}
+			}
+		}while(!auxdate);
 		System.out.println(format.format(aux.getDataTerminoInscricao()));
-
 		System.out.print("Data de realização do concurso(dd/MM/aaaa): ");
-		try {
-			aux1 = user.nextLine();
-			aux.setDataConcurso(new Date(format.parse(aux1).getTime()));
-		} catch (Exception e) {
-			System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
-			aux1 = user.nextLine();
-			aux.setDataConcurso(new Date(format.parse(aux1).getTime()));
-		}
+		do{
+			try {
+				aux1 = user.nextLine();
+				Date newdate = new Date(format.parse(aux1).getTime());
+				if(newdate.compareTo(aux.getDataTerminoInscricao()) <= 0){
+					System.out.println("essa data é anterior/igual a data de termino das inscricoes");
+					auxdate = false;
+				}
+				else{
+					aux.setDataConcurso(newdate);
+					auxdate = true;
+				}
+			} catch (Exception e) {
+				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
+				aux1 = user.nextLine();
+				Date newdate = new Date(format.parse(aux1).getTime());
+				if(newdate.compareTo(aux.getDataTerminoInscricao()) <= 0){
+					System.out.println("essa data é anterior/igual a data de termino das inscricoes");
+					auxdate = false;
+				}
+				else{
+					aux.setDataConcurso(newdate);
+					auxdate = true;
+				}
+			}
+		}while(!auxdate);
 		System.out.println(format.format(aux.getDataConcurso()));
 		System.out.print("Modalidade do concurso: ");
 		aux.setModalidade(user.nextLine());
@@ -400,11 +458,12 @@ public class Concurso {
 				System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
 			}
 			System.out.println("Para sair, digite '99'.");
+			entrada = user.nextInt();
 		}
 		for (int i = 0; i < aux.getBanca().size(); i++) {
 			System.out.println(i + ": " + aux.getBanca().get(i).getNome());
 		}
-		aux.publicarEdital();
+		//aux.publicarEdital();
 		// A adição de participantes vai ficar em outra parte
 		return aux;
 	}
