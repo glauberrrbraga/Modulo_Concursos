@@ -12,7 +12,7 @@ public class Main {
 		ArrayList<Concurso> concursos = new ArrayList<>();
 		ArrayList<Docente> docentes = new ArrayList<>();
 
-		// Cria 3 servidores e 3 docentes aleatorios s√≥ pra testar
+		// Cria 3 servidores e 3 docentes aleatorios s√É¬≥ pra testar
 		for (int i = 0; i < 3; i++) {
 			Docente aux1 = new Docente();
 			if (i == 0) {
@@ -20,7 +20,7 @@ public class Main {
 			} else if (i == 1) {
 				aux1.setNome("Leony");
 			} else {
-				aux1.setNome("VitÛria");
+				aux1.setNome("Vit√≥ria");
 			}
 			docentes.add(aux1);
 		}
@@ -40,7 +40,7 @@ public class Main {
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
 			System.out.println("1: Agendamento\n2: Editar concursos");
-			System.out.print("Digite um numero com a opÁ„o desejada: ");
+			System.out.print("Digite um numero com a op√ß√£o desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
 			case 1:
@@ -55,8 +55,11 @@ public class Main {
 				aux = user.nextInt();
 				concursos.get(aux).editarConcurso(docentes);
 				break;
+			case 3:
+				aux = 10;
+				break;
 			default:
-				System.out.println("OpÁ„o inv·lida");
+				System.out.println("Op√ß√£o inv√°lida");
 				break;
 
 			}
