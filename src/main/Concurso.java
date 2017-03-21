@@ -1,5 +1,8 @@
 package main;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,7 +13,7 @@ public class Concurso {
 	private static int concursosCadastrados;
 	private String nome;
 	private int id;
-	private String edital;
+	private double valorInscricao;
 	private String areaEstudo;
 	private Servidor supervisor;
 	private Date dataTerminoInscricao;
@@ -20,11 +23,29 @@ public class Concurso {
 	private ArrayList<Docente> banca;
 	private ArrayList<Participante> participantes;
 	private String comissao;
+	private Edital edital;
 
 	Concurso() {
 		concursosCadastrados++;
 		this.supervisor = new Servidor();
 		this.banca = new ArrayList<>();
+		this.edital = new Edital();
+	}
+
+	public Edital getEdital() {
+		return edital;
+	}
+
+	public void setEdital(Edital edital) {
+		this.edital = edital;
+	}
+
+	public double getValorInscricao() {
+		return valorInscricao;
+	}
+
+	public void setValorInscricao(double valorInscricao) {
+		this.valorInscricao = valorInscricao;
 	}
 
 	public String getComissao() {
@@ -57,14 +78,6 @@ public class Concurso {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getEdital() {
-		return edital;
-	}
-
-	public void setEdital(String edital) {
-		this.edital = edital;
 	}
 
 	public String getAreaEstudo() {
@@ -129,6 +142,22 @@ public class Concurso {
 
 	public static int getConcursosCadastrados() {
 		return concursosCadastrados;
+	}
+
+	public void publicarEdital() throws IOException {
+		Scanner user = new Scanner(System.in);
+		System.out.println("Publicar Edital.");
+		System.out.print("Detalhes do edital: ");
+		this.edital.setDetalhes(user.nextLine());
+	    FileWriter edital = new FileWriter("c:\\Edital.txt");
+	    // Ele cria um arquivo TXT
+	    PrintWriter gravarArq = new PrintWriter(edital);
+	    //Ele agora vai escrever no arquivo aberto
+	    gravarArq.printf(this.edital.getDetalhes());
+	    gravarArq.printf("\n");
+	    gravarArq.printf("Data de realização do concurso: ");
+	    gravarArq.print(this.dataConcurso);
+	    edital.close();
 	}
 
 	public void editarConcurso(ArrayList<Docente> docentes) throws ParseException {
@@ -198,25 +227,25 @@ public class Concurso {
 					System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
 				}
 
-			}else if(entrada == 2){
+			} else if (entrada == 2) {
 				for (int i = 0; i < this.getBanca().size(); i++) {
 					System.out.println(i + ": " + docentes.get(i).getNome());
 				}
 				System.out.print("Digite o docente que deseja remover da banca: ");
 				entrada = user.nextInt();
-				
+
 				if (entrada < docentes.size()) {
 					this.getBanca().remove(entrada);
 				} else {
 					System.out.println("Não foi encontrado o Docente correspondente. Tente novamente.");
 				}
-				
+
 			}
 		}
 	}
 
 	public static Concurso agendamento(ArrayList<Docente> docentes, ArrayList<Servidor> servidores)
-			throws ParseException {
+			throws ParseException, IOException {
 		System.out.println("Agendamento.\nAntes, é necessário cadastrar um novo concurso");
 		Concurso aux = new Concurso();
 		int entrada;
@@ -226,8 +255,6 @@ public class Concurso {
 		System.out.println("ID do Concurso: " + aux.getId());
 		System.out.print("Nome: ");
 		aux.setNome(user.nextLine());
-		System.out.print("Numero do edital correspondente: ");
-		aux.setEdital(user.nextLine());
 		System.out.print("Supervisor (servidor responsÃ¡vel): ");
 		System.out.println("Servidores Cadastrados: ");
 		for (int i = 0; i < servidores.size(); i++) {
@@ -273,8 +300,10 @@ public class Concurso {
 		System.out.println(format.format(aux.getDataConcurso()));
 		System.out.print("Modalidade do concurso: ");
 		aux.setModalidade(user.nextLine());
-		System.out.print("ComissÃ£o organizadora: ");
+		System.out.print("Comissão organizadora: ");
 		aux.setComissao(user.nextLine());
+		System.out.print("Valor da inscrição: ");
+		aux.setValorInscricao(user.nextDouble());
 		System.out.println("Adicionar docentes a Banca.");
 		for (int i = 0; i < docentes.size(); i++) {
 			System.out.println(i + ": " + docentes.get(i).getNome());
@@ -294,6 +323,7 @@ public class Concurso {
 		for (int i = 0; i < aux.getBanca().size(); i++) {
 			System.out.println(i + ": " + aux.getBanca().get(i).getNome());
 		}
+		aux.publicarEdital();
 		// A adição de participantes vai ficar em outra parte
 		return aux;
 	}

@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 public class Main {
 	static ArrayList<Servidor> servidores = new ArrayList<>();
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, IOException {
 		ArrayList<Concurso> concursos = new ArrayList<>();
 		ArrayList<Docente> docentes = new ArrayList<>();
 
