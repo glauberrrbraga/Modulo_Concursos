@@ -192,24 +192,30 @@ public class Concurso {
 	}
 
 	// Cria o edital em txt
-	public void criarEdital() throws IOException {
+	public void criarEdital() throws IOException, ParseException {
 		Scanner s = new Scanner(System.in);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
 		// Cria um arquivo .txt
-		FileWriter edital = new FileWriter(new File("C:\\Users\\Glauber Braga\\Desktop\\Edital.txt"));
+		FileWriter edital = new FileWriter(new File("Edital.txt"));
 		
-		System.out.println("Criar Edital.");
+		System.out.println("Edital.");
 		System.out.print("Digite detalhes do edital: ");
-		this.edital.setDetalhes(s.nextLine());
+		this.edital.setDetalhes(s.nextLine());		
+		GregorianCalendar data = new GregorianCalendar();
+		String date = format.format(data.getTime());
+		
+		Date dateaux = new Date(format.parse(date).getTime());
+		
 		
 		PrintWriter gravarArq = new PrintWriter(edital);
 		
 		// Escreve no arquivo aberto
-		gravarArq.println(this.getNome());
+		gravarArq.println("Retificado em: " + format.format(dateaux));
+		gravarArq.println("Concurso" + this.getNome());
 		gravarArq.println("Id: " + this.getId());
 		gravarArq.println("Comissao organizadora: " + this.getComissao());
-		gravarArq.println("Taxa de incrição: " + this.getValorInscricao());
+		gravarArq.println("Taxa de incriÃ§Ã£o: " + this.getValorInscricao());
 		gravarArq.println(this.edital.getDetalhes());
 		gravarArq.println("Data de realizacao do concurso: ");
 		gravarArq.println(format.format(this.getDataConcurso()));
