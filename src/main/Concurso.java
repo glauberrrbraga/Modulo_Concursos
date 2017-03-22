@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -147,18 +148,26 @@ public class Concurso {
 
 	public void publicarEdital() throws IOException {
 		Scanner user = new Scanner(System.in);
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		System.out.println("Publicar Edital.");
-		System.out.print("Detalhes do edital: ");
+		System.out.print("Digite detalhes do edital: ");
 		this.edital.setDetalhes(user.nextLine());
-	    FileWriter edital = new FileWriter("c:\\Edital.txt");
-	    // Ele cria um arquivo TXT
-	    PrintWriter gravarArq = new PrintWriter(edital);
-	    //Ele agora vai escrever no arquivo aberto
-	    gravarArq.printf(this.edital.getDetalhes());
-	    gravarArq.printf("\n");
-	    gravarArq.printf("Data de realização do concurso: ");
-	    gravarArq.print(this.dataConcurso);
-	    edital.close();
+		FileWriter edital = new FileWriter(new File("C:\\Users\\Glauber Braga\\Desktop\\Edital.txt"));
+		// Ele cria um arquivo TXT
+		PrintWriter gravarArq = new PrintWriter(edital);
+		// Ele agora vai escrever no arquivo aberto
+		gravarArq.println(this.getNome());
+		gravarArq.println("Id: " + this.getId());
+		gravarArq.println("Comissao organizadora: " + this.getComissao());
+		gravarArq.println("Taxa de incri��o: " + this.getValorInscricao());
+		gravarArq.println(this.edital.getDetalhes());
+		gravarArq.println("Data de realizacao do concurso: ");
+		gravarArq.println(format.format(this.getDataConcurso()));
+		gravarArq.println("Data de inicio das inscricoes: ");
+		gravarArq.println(format.format(this.getDataInicioInscricao()));
+		gravarArq.println("Data de termino das inscricoes: ");
+		gravarArq.println(format.format(this.getDataTerminoInscricao()));
+		edital.close();
 	}
 
 	public void editarConcurso(ArrayList<Docente> docentes) throws ParseException {
@@ -173,38 +182,34 @@ public class Concurso {
 					"1: Editar data de realização do concurso\n2: Editar data de termino das inscrições\n3: Editar data de inicio da inscrições");
 			entrada = user.nextInt();
 			user.nextLine();
-			
+
 			GregorianCalendar data = new GregorianCalendar();
 			String date = format.format(data.getTime());
 			Date dateaux = new Date(format.parse(date).getTime());
-			
+
 			if (entrada == 1) {
 				System.out.print("Data de realização do concurso(dd/MM/aaaa): ");
 				try {
 					aux1 = user.nextLine();
 					Date date2 = new Date(format.parse(aux1).getTime());
-					
-					if(dateaux.compareTo(date2) > 0){
+
+					if (dateaux.compareTo(date2) > 0) {
 						System.out.println("Essa data já passou");
-					}
-					else if (dateaux.compareTo(date2) == 0){
+					} else if (dateaux.compareTo(date2) == 0) {
 						System.out.println("Você não pode marcar o concurso para hoje");
-					}
-					else{
+					} else {
 						this.setDataConcurso(date2);
 					}
 				} catch (Exception e) {
 					System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 					aux1 = user.nextLine();
 					Date date2 = new Date(format.parse(aux1).getTime());
-					
-					if(dateaux.compareTo(date2) > 0){
+
+					if (dateaux.compareTo(date2) > 0) {
 						System.out.println("Essa data já passou");
-					}
-					else if (dateaux.compareTo(date2) == 0){
+					} else if (dateaux.compareTo(date2) == 0) {
 						System.out.println("Você não pode marcar o concurso para hoje");
-					}
-					else{
+					} else {
 						this.setDataConcurso(date2);
 					}
 				}
@@ -214,34 +219,28 @@ public class Concurso {
 				try {
 					aux1 = user.nextLine();
 					Date newdate = new Date(format.parse(aux1).getTime());
-					
-					if(newdate.compareTo(this.getDataInicioInscricao()) < 0){
+
+					if (newdate.compareTo(this.getDataInicioInscricao()) < 0) {
 						System.out.println("Essa data é anterior à data de início de inscrição");
-					}
-					else if(newdate.compareTo(this.getDataInicioInscricao()) == 0){
+					} else if (newdate.compareTo(this.getDataInicioInscricao()) == 0) {
 						System.out.println("Essa é a mesma data de inscrição");
-					}
-					else if(newdate.compareTo(this.getDataConcurso()) >= 0){
+					} else if (newdate.compareTo(this.getDataConcurso()) >= 0) {
 						System.out.println("essa data é posterior a data de realização do concurso");
-					}
-					else{
+					} else {
 						this.setDataTerminoInscricao(newdate);
 					}
 				} catch (Exception e) {
 					System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 					aux1 = user.nextLine();
 					Date newdate = new Date(format.parse(aux1).getTime());
-					
-					if(newdate.compareTo(this.getDataInicioInscricao()) < 0){
+
+					if (newdate.compareTo(this.getDataInicioInscricao()) < 0) {
 						System.out.println("Essa data é anterior à data de início de inscrição");
-					}
-					else if(newdate.compareTo(this.getDataInicioInscricao()) == 0){
+					} else if (newdate.compareTo(this.getDataInicioInscricao()) == 0) {
 						System.out.println("Essa é a mesma data de inscrição");
-					}
-					else if(newdate.compareTo(this.getDataConcurso()) >= 0){
+					} else if (newdate.compareTo(this.getDataConcurso()) >= 0) {
 						System.out.println("essa data é igual/posterior a data de realização do concurso");
-					}
-					else{
+					} else {
 						this.setDataTerminoInscricao(newdate);
 					}
 				}
@@ -251,42 +250,36 @@ public class Concurso {
 				try {
 					aux1 = user.nextLine();
 					Date newdate = new Date(format.parse(aux1).getTime());
-					
-					if(newdate.compareTo(dateaux) < 0){
+
+					if (newdate.compareTo(dateaux) < 0) {
 						System.out.println("essa data já passou");
-					}
-					else if(newdate.compareTo(this.getDataConcurso()) > 0){
+					} else if (newdate.compareTo(this.getDataConcurso()) > 0) {
 						System.out.println("essa data é posterior à data de realização do concruso");
-					}
-					else if(newdate.compareTo(this.getDataTerminoInscricao()) > 0){
+					} else if (newdate.compareTo(this.getDataTerminoInscricao()) > 0) {
 						System.out.println("essa data é posterior ao termino das inscrições");
-					}
-					else{
+					} else {
 						this.setDataInicioInscricao(newdate);
 					}
-					
+
 				} catch (Exception e) {
 					System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 					aux1 = user.nextLine();
 					Date newdate = new Date(format.parse(aux1).getTime());
-					
-					if(newdate.compareTo(dateaux) < 0){
+
+					if (newdate.compareTo(dateaux) < 0) {
 						System.out.println("essa data já passou");
-					}
-					else if(newdate.compareTo(this.getDataConcurso()) > 0){
+					} else if (newdate.compareTo(this.getDataConcurso()) > 0) {
 						System.out.println("essa data é posterior à data de realização do concruso");
-					}
-					else if(newdate.compareTo(this.getDataTerminoInscricao()) > 0){
+					} else if (newdate.compareTo(this.getDataTerminoInscricao()) > 0) {
 						System.out.println("essa data é posterior ao termino das inscrições");
-					}
-					else{
+					} else {
 						this.setDataInicioInscricao(newdate);
 					}
 
 				}
 
 			}
-			
+
 		} else if (entrada == 2) {
 			System.out.println("Editar a banca. \n");
 			System.out.println("1: Adicionar docentes a banca\n2: Remover docentes da banca\n");
@@ -352,17 +345,16 @@ public class Concurso {
 		Date dateaux = new Date(format.parse(date).getTime());
 		String aux1;
 		boolean auxdate = false;
-		
+
 		System.out.print("Data de inicio das inscrições(dd/MM/aaaa): ");
-		do{
+		do {
 			try {
 				aux1 = user.nextLine();
 				Date newdate = new Date(format.parse(aux1).getTime());
-				if(newdate.compareTo(dateaux) < 0){
+				if (newdate.compareTo(dateaux) < 0) {
 					System.out.println("essa data já passou");
 					auxdate = false;
-				}
-				else{
+				} else {
 					aux.setDataInicioInscricao(newdate);
 					auxdate = true;
 				}
@@ -370,27 +362,25 @@ public class Concurso {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 				aux1 = user.nextLine();
 				Date newdate = new Date(format.parse(aux1).getTime());
-				if(newdate.compareTo(dateaux) < 0){
+				if (newdate.compareTo(dateaux) < 0) {
 					System.out.println("essa data já passou");
 					auxdate = false;
-				}
-				else{
+				} else {
 					aux.setDataInicioInscricao(newdate);
 					auxdate = true;
 				}
 			}
-		}while(!auxdate);
+		} while (!auxdate);
 		System.out.println(format.format(aux.getDataInicioInscricao()));
 		System.out.print("Data de termino das inscrições(dd/MM/aaaa): ");
-		do{
+		do {
 			try {
 				aux1 = user.nextLine();
 				Date newdate = new Date(format.parse(aux1).getTime());
-				if(newdate.compareTo(aux.getDataInicioInscricao()) <= 0){
+				if (newdate.compareTo(aux.getDataInicioInscricao()) <= 0) {
 					System.out.println("essa data é anterior/igual a de inicio das inscricoes");
 					auxdate = false;
-				}
-				else{
+				} else {
 					aux.setDataTerminoInscricao(newdate);
 					auxdate = true;
 				}
@@ -398,27 +388,25 @@ public class Concurso {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 				aux1 = user.nextLine();
 				Date newdate = new Date(format.parse(aux1).getTime());
-				if(newdate.compareTo(aux.getDataInicioInscricao()) <= 0){
+				if (newdate.compareTo(aux.getDataInicioInscricao()) <= 0) {
 					System.out.println("essa data é anterior/igual a de inicio das inscricoes");
 					auxdate = false;
-				}
-				else{
+				} else {
 					aux.setDataTerminoInscricao(newdate);
 					auxdate = true;
 				}
 			}
-		}while(!auxdate);
+		} while (!auxdate);
 		System.out.println(format.format(aux.getDataTerminoInscricao()));
 		System.out.print("Data de realização do concurso(dd/MM/aaaa): ");
-		do{
+		do {
 			try {
 				aux1 = user.nextLine();
 				Date newdate = new Date(format.parse(aux1).getTime());
-				if(newdate.compareTo(aux.getDataTerminoInscricao()) <= 0){
+				if (newdate.compareTo(aux.getDataTerminoInscricao()) <= 0) {
 					System.out.println("essa data é anterior/igual a data de termino das inscricoes");
 					auxdate = false;
-				}
-				else{
+				} else {
 					aux.setDataConcurso(newdate);
 					auxdate = true;
 				}
@@ -426,16 +414,15 @@ public class Concurso {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 				aux1 = user.nextLine();
 				Date newdate = new Date(format.parse(aux1).getTime());
-				if(newdate.compareTo(aux.getDataTerminoInscricao()) <= 0){
+				if (newdate.compareTo(aux.getDataTerminoInscricao()) <= 0) {
 					System.out.println("essa data é anterior/igual a data de termino das inscricoes");
 					auxdate = false;
-				}
-				else{
+				} else {
 					aux.setDataConcurso(newdate);
 					auxdate = true;
 				}
 			}
-		}while(!auxdate);
+		} while (!auxdate);
 		System.out.println(format.format(aux.getDataConcurso()));
 		System.out.print("Modalidade do concurso: ");
 		aux.setModalidade(user.nextLine());
