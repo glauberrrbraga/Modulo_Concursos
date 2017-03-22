@@ -422,11 +422,11 @@ public class Concurso {
 			if (entrada < docentes.size() && !aux.getBanca().contains(docentes.get(entrada))) {
 				aux.addBanca(docentes.get(entrada));
 			} else if (entrada < docentes.size() && aux.getBanca().contains(docentes.get(entrada))) {
-				System.out.println("Voce associou esse docente a esse concurso.");
+				System.out.println("Voce ja associou esse docente a esse concurso.");
 			} else {
 				System.out.println("Nao foi encontrado o Docente correspondente. Tente novamente.");
 			}
-			System.out.println("Para sair, digite '99'.");
+			System.out.println("Para continuar, digite '10'. Para sair, digite '99'");
 			entrada = scan.nextInt();
 		}
 		for (int i = 0; i < aux.getBanca().size(); i++) {
