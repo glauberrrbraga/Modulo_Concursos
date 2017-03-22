@@ -4,6 +4,25 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.lang.IndexOutOfBoundsException;
+
+public static Concurso selecionaConcurso(ArrayList<Concurso> concursos){
+		Scanner user = new Scanner(System.in);
+		System.out.println("Por favor, escolha o concurso desejado:");
+		for(Concurso concurso : concursos){
+			System.out.println(concurso.getId() + " - " + concurso.getNome());
+		}
+		int escolhido = user.nextInt() - 1;
+		Concurso selecionado = null;
+		
+		// Verifica se o concurso esta agendado
+		try {
+			selecionado = concursos.get(escolhido);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.printf("\nErro: Concurso inexistente!! (%s).", e.getMessage());
+		}
+		return selecionado;
+}
 
 public class Main {
 	static ArrayList<Servidor> servidores = new ArrayList<>();
@@ -39,7 +58,7 @@ public class Main {
 		int aux = 0;
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
-			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Sair");
+			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Sair\n5:Imprimir");
 			System.out.print("Digite um numero com a opcao desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
@@ -62,10 +81,22 @@ public class Main {
 				}
 				System.out.print("Selecione o concurso: ");
 				aux = user.nextInt();
-				concursos.get(aux).criarEdital();			
+				concursos.get(aux).criarEdital();
+				break;
 				
 			case 4:
 				aux = 10;
+				break;
+			case 5:
+				Concurso selecionado = selecionaConcurso(concursos);
+				if (selecionado != null) {
+					selecionado.adicionarParticipante();
+					user.nextLine();
+				}
+				break;
+			case 6:
+				selecionado = selecionaConcurso(concursos);
+				selecionado.selecionaRelatorio();
 				break;
 			default:
 				System.out.println("Opcao invalida");
