@@ -39,7 +39,7 @@ public class Main {
 		int aux = 0;
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
-			System.out.println("1: Agendamento\n2: Editar concursos\n3: Sair");
+			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Sair");
 			System.out.print("Digite um numero com a opcao desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
@@ -56,6 +56,15 @@ public class Main {
 				concursos.get(aux).editarConcurso(docentes);
 				break;
 			case 3:
+				System.out.println("Retificar edital.");
+				for(int i = 0; i < concursos.size(); i++){
+					System.out.println(i + ": " + concursos.get(i).getNome());					
+				}
+				System.out.print("Selecione o concurso: ");
+				aux = user.nextInt();
+				concursos.get(aux).criarEdital();			
+				
+			case 4:
 				aux = 10;
 				break;
 			default:
