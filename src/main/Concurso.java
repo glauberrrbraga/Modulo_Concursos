@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Concurso {
 	private static int concursosCadastrados;
@@ -33,7 +34,7 @@ public class Concurso {
 	Concurso() {
 		concursosCadastrados++;
 		this.supervisor = new Servidor();
-		this.participantes = new ArrayList<Participantes>();
+		this.participantes = new ArrayList<Participante>();
 		this.banca = new ArrayList<>();
 		this.edital = new Edital();
 	}
