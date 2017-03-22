@@ -507,4 +507,159 @@ public class Concurso {
 		convite.close();
 		scn.close();
 	}
+		public void adicionarParticipante() {
+		Scanner entrada = new Scanner(System.in);
+		Participante novo = new Participante();
+		System.out.println("Nome completo: ");
+		novo.setNome(entrada.nextLine());
+		System.out.println("CPF (sem pontos e sem traço):");
+		String newCPF = entrada.nextLine();
+		while (novo.validaCPF(newCPF) != true){
+			System.out.println("CPF inválido! Por favor, digite um número de CPF válido");
+			newCPF = entrada.nextLine();
+		}
+		novo.setCpf(newCPF);
+		System.out.println("Registro Geral: ");
+		novo.setRg(entrada.nextInt());
+		entrada.nextLine();
+		System.out.println("Órgão Emissor: ");
+		novo.setOrgaoEmissorRG(entrada.nextLine());
+		System.out.println("Data de Nascimento (dd/mm/aaaa): ");
+		int valida = 0;
+		SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+		GregorianCalendar data = new GregorianCalendar();
+		String aux1 = format.format(data.getTime());
+		while (valida == 0) {
+			try {
+				aux1 = entrada.nextLine();
+				// obs: colocar a data no formato normal!
+				novo.setDataNascimento(new Date(format.parse(aux1).getTime()));
+				valida = 1;
+			} catch (ParseException e) {
+				System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
+			}
+		}
+		System.out.println("Nome da mãe: ");
+		novo.setNomeMae(entrada.nextLine());
+		System.out.println("Naturalidade: ");
+		novo.setNaturalidade(entrada.nextLine());
+		System.out.println("Endereço: ");
+		novo.setEndereco(entrada.nextLine());
+		System.out.println("Email: ");
+		novo.setEmail(entrada.nextLine());
+		System.out.println("Telefone (com DDD): ");
+		String telefone = entrada.nextLine();
+		int valido = 0;
+		while (valido == 0) {
+			if (telefone.length() == 11){
+				novo.setTelefone(telefone);
+				valido = 1;
+			} else {
+				System.out.println("Número de telefone inválido!");
+				telefone = entrada.nextLine();
+			}
+		}
+		int aux = 0;
+		System.out.println("Possui algum tipo de deficiência?\n1-Sim\n2-Não");
+		while (aux == 0) {
+			try {
+				aux = entrada.nextInt();
+				switch(aux){
+				case 1:
+					novo.setDeficiencia(true);
+					entrada.nextLine();
+					System.out.println("Qual(is) o(s) tipo(s) de deficiência do candidato?");
+					novo.setAcessibilidade(entrada.nextLine());
+					break;
+				case 2:
+					novo.setDeficiencia(false);
+					break;
+				default:
+					System.out.println("Opção inválida!\n1-Sim\n2-Não");
+					aux = 0;
+					break;
+				}
+			} catch (InputMismatchException e) {
+				System.err.println("Não é permitido inserir letras, informe apenas números inteiros!");
+			}
+		}
+		aux = 0;
+		System.out.println("Deseja solicitar isenção de taxa?\n1-Sim\n2-Não");
+		while (aux == 0) {
+			try {
+				aux = entrada.nextInt();
+				switch(aux){
+				case 1:
+					novo.setSolicitaIsencao(true);
+					break;
+				case 2:
+					novo.setSolicitaIsencao(false);
+					break;
+				default:
+					System.out.println("Opção inválida!\n1-Sim\n2-Não");
+					aux = 0;
+					break;
+				}
+			} catch (InputMismatchException e) {
+				System.err.println("Não é permitido inserir letras, informe apenas números inteiros!");
+				aux = entrada.nextInt();
+			}
+		}
+		novo.setAptidao(false);
+		novo.setIsentoTaxa(false);
+		novo.setTaxaPaga(false);
+		System.out.println("\n");
+		novo.confirmacao();
+		System.out.println("\nInscrição realizada com sucesso!\n");
+		this.participantes.add(novo);
+	}
+	
+	public void relatorioGeral() throws IOException {
+		FileWriter arq = new FileWriter("C:\\Users\\leony\\Desktop\\Relatorio.txt");
+		PrintWriter gravarArq = new PrintWriter(arq);
+		gravarArq.println("Docentes na banca do concurso: " + this.banca.size() + "\n");
+		gravarArq.println("Participantes inscritos do concurso: " + this.participantes.size() + "\n");
+		arq.close();
+	}
+	
+	public void relatorioBanca() throws IOException {
+		FileWriter arq = new FileWriter("C:\\Users\\leony\\Desktop\\Banca.txt");
+		PrintWriter gravarArq = new PrintWriter(arq);
+		gravarArq.println("Docentes na banca do concurso\n");
+		int i = 0;
+		for (Docente docente : this.banca){
+			gravarArq.println(i + " - " + docente.getNome());
+			i++;
+		}
+		arq.close();
+	}
+	
+	public void relatorioParticipantes() throws IOException {
+		FileWriter arq = new FileWriter("C:\\Users\\leony\\Desktop\\Participantes.txt");
+		PrintWriter gravarArq = new PrintWriter(arq);
+		gravarArq.println("Participantes inscritos no concurso\n");
+		for (Participante participante : this.participantes){
+			gravarArq.println(participante.getCpf() + " - " + participante.getNome());
+		}
+		arq.close();
+	}
+	
+	public void selecionaRelatorio() throws IOException {
+		Scanner entrada = new Scanner(System.in);
+		int escolha = entrada.nextInt();
+		switch(escolha){
+		case 1:
+			this.relatorioGeral();
+			break;
+		case 2:
+			this.relatorioBanca();
+			break;
+		case 3:
+			this.relatorioParticipantes();
+			break;
+		default:
+			System.out.println("Opção Inválida!");
+		}
+	}
+
 }
