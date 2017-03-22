@@ -33,6 +33,7 @@ public class Concurso {
 	Concurso() {
 		concursosCadastrados++;
 		this.supervisor = new Servidor();
+		this.participantes = new ArrayList<Participantes>();
 		this.banca = new ArrayList<>();
 		this.edital = new Edital();
 	}
