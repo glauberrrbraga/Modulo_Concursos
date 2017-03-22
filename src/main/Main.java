@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.lang.IndexOutOfBoundsException;
 
-public static Concurso selecionaConcurso(ArrayList<Concurso> concursos){
+public class Main {
+	static ArrayList<Servidor> servidores = new ArrayList<>();
+	
+	public static Concurso selecionaConcurso(ArrayList<Concurso> concursos){
 		Scanner user = new Scanner(System.in);
 		System.out.println("Por favor, escolha o concurso desejado:");
 		for(Concurso concurso : concursos){
@@ -22,10 +25,7 @@ public static Concurso selecionaConcurso(ArrayList<Concurso> concursos){
 			System.out.printf("\nErro: Concurso inexistente!! (%s).", e.getMessage());
 		}
 		return selecionado;
-}
-
-public class Main {
-	static ArrayList<Servidor> servidores = new ArrayList<>();
+	}
 
 	public static void main(String[] args) throws ParseException, IOException {
 		ArrayList<Concurso> concursos = new ArrayList<>();
