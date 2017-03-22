@@ -106,8 +106,7 @@ public class Concurso {
 		return dataInicioInscricao;
 	}
 
-	public boolean setDataInicioInscricao(Scanner sc, SimpleDateFormat format, Date dateaux) throws ParseException {
-		String aux1 = sc.nextLine();
+	public boolean setDataInicioInscricao(String aux1, SimpleDateFormat format, Date dateaux) throws ParseException {
 		Date newdate = new Date(format.parse(aux1).getTime());
 
 		if (newdate.compareTo(dateaux) < 0) {
@@ -128,8 +127,7 @@ public class Concurso {
 		return dataTerminoInscricao;
 	}
 
-	public boolean setDataTerminoInscricao(Scanner sc, SimpleDateFormat format, Date dateaux) throws ParseException {
-		String aux1 = sc.nextLine();
+	public boolean setDataTerminoInscricao(String aux1, SimpleDateFormat format, Date dateaux) throws ParseException {
 		Date newdate = new Date(format.parse(aux1).getTime());
 
 		if (newdate.compareTo(this.getDataInicioInscricao()) < 0) {
@@ -150,8 +148,7 @@ public class Concurso {
 		return dataConcurso;
 	}
 
-	public boolean setDataConcurso(Scanner sc, SimpleDateFormat format, Date dateaux) throws ParseException {
-		String aux1 = sc.nextLine();
+	public boolean setDataConcurso(String aux1, SimpleDateFormat format, Date dateaux) throws ParseException {
 		Date date2 = new Date(format.parse(aux1).getTime());
 
 		if (date2.compareTo(dateaux) < 0) {
@@ -182,6 +179,10 @@ public class Concurso {
 		this.banca.add(docente);
 	}
 
+	public void editarBanca(){
+		System.out.println("");
+	}
+	
 	public static void setConcursosCadastrados(int concursosCadastrados) {
 		Concurso.concursosCadastrados = concursosCadastrados;
 	}
@@ -227,6 +228,7 @@ public class Concurso {
 		Scanner sc = new Scanner(System.in);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		int entrada, aux = 0;
+		String aux1;
 		
 		System.out.println("ID do concurso: " + this.getId());
 		System.out.println("Digite a opcao desejada:\n1: Editar datas\n2: Editar banca");
@@ -252,30 +254,36 @@ public class Concurso {
 							// Modificar a data da realizacao do concurso
 							System.out.print("Nova data de realizacao do concurso(dd/mm/aaaa): ");
 							try{
-								this.setDataConcurso(sc, format, dateaux);
+								aux1 = sc.nextLine();
+								this.setDataConcurso(aux1, format, dateaux);
 							} catch (Exception e){
+								aux1 = sc.nextLine();
 								System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
-								this.setDataConcurso(sc, format, dateaux);
+								this.setDataConcurso(aux1, format, dateaux);
 							}
 							break;
 						case 2:
 							// Modificar a data de termino das incricoes para o concurso
 							System.out.print("Nova data de termino das inscricoes(dd/mm/aaaa): ");
 							try{
-								this.setDataTerminoInscricao(sc, format, dateaux);
+								aux1 = sc.nextLine();
+								this.setDataTerminoInscricao(aux1, format, dateaux);
 							} catch (Exception e){
 								System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
-								this.setDataTerminoInscricao(sc, format, dateaux);
+								aux1 = sc.nextLine();
+								this.setDataTerminoInscricao(aux1, format, dateaux);
 							}
 							break;
 						case 3:
 							// Modificar a data de inicio das incricoes para o concurso
 							System.out.print("Data de inicio das inscricoes(dd/mm/aaaa): ");
 							try{
-								this.setDataInicioInscricao(sc, format, dateaux);
+								aux1 = sc.nextLine();
+								this.setDataInicioInscricao(aux1, format, dateaux);
 							} catch (Exception e){
+								aux1 = sc.nextLine();
 								System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
-								this.setDataInicioInscricao(sc, format, dateaux);
+								this.setDataInicioInscricao(aux1, format, dateaux);
 							}
 							break;
 						default:
@@ -349,6 +357,7 @@ public class Concurso {
 		Scanner scan = new Scanner(System.in);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		boolean auxdate = false;
+		String aux1;
 		
 		aux.setId(Concurso.getConcursosCadastrados());
 		System.out.println("ID do Concurso: " + aux.getId());
@@ -375,30 +384,36 @@ public class Concurso {
 		System.out.print("Data de inicio das inscricoes(dd/mm/aaaa): ");
 		do {
 			try {
-				auxdate = aux.setDataInicioInscricao(scan, format, dateaux);
+				aux1 = scan.nextLine();
+				auxdate = aux.setDataInicioInscricao(aux1, format, dateaux);
 			} catch (Exception e) {
+				aux1 = scan.nextLine();
 				System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
-				auxdate = aux.setDataInicioInscricao(scan, format, dateaux);
+				auxdate = aux.setDataInicioInscricao(aux1, format, dateaux);
 			}
 		} while (!auxdate);
 		System.out.println(format.format(aux.getDataInicioInscricao()));
 		System.out.print("Data de termino das inscricoes(dd/mm/aaaa): ");
 		do {
 			try {
-				auxdate = aux.setDataTerminoInscricao(scan, format, dateaux);
+				aux1 = scan.nextLine();
+				auxdate = aux.setDataTerminoInscricao(aux1, format, dateaux);
 			} catch (Exception e) {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
-				auxdate = aux.setDataTerminoInscricao(scan, format, dateaux);
+				aux1 = scan.nextLine();
+				auxdate = aux.setDataTerminoInscricao(aux1, format, dateaux);
 			}
 		} while (!auxdate);
 		System.out.println(format.format(aux.getDataTerminoInscricao()));
 		System.out.print("Data de realizacao do concurso(dd/mm/aaaa): ");
 		do {
 			try {
-				auxdate = aux.setDataConcurso(scan, format, dateaux);
+				aux1 = scan.nextLine();
+				auxdate = aux.setDataConcurso(aux1, format, dateaux);
 			} catch (Exception e) {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
-				auxdate = aux.setDataConcurso(scan, format, dateaux);
+				aux1 = scan.nextLine();
+				auxdate = aux.setDataConcurso(aux1, format, dateaux);
 			}
 		} while (!auxdate);
 		System.out.println(format.format(aux.getDataConcurso()));
@@ -439,4 +454,28 @@ public class Concurso {
 		return aux;
 	}
 
+	public void criarConviteBanca(ArrayList<Docente> docentes) throws IOException{
+		Scanner scn = new Scanner(System.in);
+		FileWriter convite = new FileWriter(new File("C:\\Users\\Glauber Braga\\Desktop\\Convite.txt"));
+		PrintWriter gravarArq = new PrintWriter(convite);
+		int entrada;
+		
+		System.out.println("Criar convite para composição de banca.");
+		System.out.println("Digite o id do docente para o qual deseja enviar o convite para compor a banca");
+		System.out.println("\nDocentes disponíveis:");
+		for (int i = 0; i < docentes.size(); i++) {
+			if(!this.getBanca().contains(docentes.get(i))){
+				System.out.println(i + ": " + docentes.get(i).getNome());
+			}
+		}
+		entrada = scn.nextInt();
+		scn.nextLine();
+		
+		System.out.println("Selecione a opcao desejada:\n1: Utilizar um convite preescrito\n2: Escrever um novo convite");
+		
+		gravarArq.println("Caro " + this.getBanca().get(entrada).getNome());
+		
+		convite.close();
+		scn.close();
+	}
 }
