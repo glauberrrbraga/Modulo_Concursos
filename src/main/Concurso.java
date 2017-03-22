@@ -465,6 +465,7 @@ public class Concurso {
 		FileWriter convite = new FileWriter(new File("C:\\Users\\Glauber Braga\\Desktop\\Convite.txt"));
 		PrintWriter gravarArq = new PrintWriter(convite);
 		int entrada;
+		boolean flag = false;
 		
 		System.out.println("Criar convite para composição de banca.");
 		System.out.println("Digite o id do docente para o qual deseja enviar o convite para compor a banca");
@@ -475,11 +476,32 @@ public class Concurso {
 			}
 		}
 		entrada = scn.nextInt();
-		scn.nextLine();
+		
+		//Começa a escrita no arquivo
+		gravarArq.println("Caro " + this.getBanca().get(entrada).getNome());
 		
 		System.out.println("Selecione a opcao desejada:\n1: Utilizar um convite preescrito\n2: Escrever um novo convite");
+		entrada = scn.nextInt();
 		
-		gravarArq.println("Caro " + this.getBanca().get(entrada).getNome());
+		do{
+			switch(entrada){
+			case 1:
+				// Convite predeterminado
+				gravarArq.print("\n 		O Instituto de Computacao (IC) da Universidade Federal de Alagoas (UFAL) tem o prazer de convidá-lo para compor a banca de correcao do concurso ");
+				gravarArq.println(this.getNome() + " que será realizado no dia " + this.getDataConcurso());
+				gravarArq.println(" 		Pedimos encarecidamente que nos dê uma confirmacao o mais breviamente possivel.");
+				gravarArq.println("\n 										Atenciosamente");
+				gravarArq.println("			 										Secretaria do Instituto de Computacao");
+				flag = true;
+				break;
+			case 2:
+				// Convite feito pela secretaria
+				flag = true;
+				break;
+			default:
+				System.out.println("Opcao invalida. Por favor, tente novamente.");
+			}
+		}while(!flag);
 		
 		convite.close();
 		scn.close();
