@@ -25,13 +25,13 @@ public class Main {
 			System.out.printf("\nErro: Concurso inexistente!! (%s).", e.getMessage());
 		}
 		return selecionado;
-	}
+}
 
 	public static void main(String[] args) throws ParseException, IOException {
 		ArrayList<Concurso> concursos = new ArrayList<>();
 		ArrayList<Docente> docentes = new ArrayList<>();
 
-		// Cria 3 servidores e 3 docentes aleatorios s√É¬≥ pra testar
+		// Cria 3 servidores e 3 docentes aleatorios s√≥ pra testar
 		for (int i = 0; i < 3; i++) {
 			Docente aux1 = new Docente();
 			if (i == 0) {
@@ -39,7 +39,7 @@ public class Main {
 			} else if (i == 1) {
 				aux1.setNome("Leony");
 			} else {
-				aux1.setNome("Vit√≥ria");
+				aux1.setNome("VitÛria");
 			}
 			docentes.add(aux1);
 		}
@@ -58,7 +58,7 @@ public class Main {
 		int aux = 0;
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
-			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Sair\n5:Imprimir");
+			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Sair\n5: Adicionar Participantes\n6: Imrpimir relatÛrios\n7: Associar taxa de pagamento ou isenÁ„o de taxa a um participante\n");
 			System.out.print("Digite um numero com a opcao desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
@@ -96,8 +96,23 @@ public class Main {
 				break;
 			case 6:
 				selecionado = selecionaConcurso(concursos);
-				selecionado.selecionaRelatorio();
+				if (selecionado != null) selecionado.selecionaRelatorio();
 				break;
+			case 7:
+				selecionado = selecionaConcurso(concursos);
+				if (selecionado != null) {
+					System.out.println("Deseja:\n1-Validar uma taxa de pagamento\n2-Adicionar isenÁ„o\n");
+					int opcao = user.nextInt();
+					switch(opcao){
+					case 1:
+						selecionado.pagamentoTaxa();
+						break;
+					case 2:
+						break;
+					default:
+						System.out.println("OpÁ„o inv·lida! Voltando ao menu principal...");
+					}
+				}
 			default:
 				System.out.println("Opcao invalida");
 				break;

@@ -11,5 +11,4 @@ public class Servidor {
 		this.nome = nome;
 	}
 
-	
 }
