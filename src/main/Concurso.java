@@ -225,7 +225,7 @@ public class Concurso {
 		gravarArq.println("Concurso" + this.getNome());
 		gravarArq.println("Id: " + this.getId());
 		gravarArq.println("Comissao organizadora: " + this.getComissao());
-		gravarArq.println("Taxa de incriÃ§Ã£o: " + this.getValorInscricao());
+		gravarArq.println("Taxa de inscricao: " + this.getValorInscricao());
 		gravarArq.println(this.edital.getDetalhes());
 		gravarArq.println("Data de realizacao do concurso: ");
 		gravarArq.println(format.format(this.getDataConcurso()));
@@ -537,14 +537,14 @@ public class Concurso {
 		System.out.println("CPF (sem pontos e sem traço):");
 		String newCPF = entrada.nextLine();
 		while (novo.validaCPF(newCPF) != true){
-			System.out.println("CPF inválido! Por favor, digite um número de CPF válido");
+			System.out.println("CPF invalido! Por favor, digite um numero de CPF valido");
 			newCPF = entrada.nextLine();
 		}
 		novo.setCpf(newCPF);
 		System.out.println("Registro Geral: ");
 		novo.setRg(entrada.nextInt());
 		entrada.nextLine();
-		System.out.println("Órgão Emissor: ");
+		System.out.println("Orgao Emissor: ");
 		novo.setOrgaoEmissorRG(entrada.nextLine());
 		System.out.println("Data de Nascimento (dd/mm/aaaa): ");
 		int valida = 0;
@@ -561,11 +561,11 @@ public class Concurso {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
 			}
 		}
-		System.out.println("Nome da mãe: ");
+		System.out.println("Nome da mae: ");
 		novo.setNomeMae(entrada.nextLine());
 		System.out.println("Naturalidade: ");
 		novo.setNaturalidade(entrada.nextLine());
-		System.out.println("Endereço: ");
+		System.out.println("Endereco: ");
 		novo.setEndereco(entrada.nextLine());
 		System.out.println("Email: ");
 		novo.setEmail(entrada.nextLine());
@@ -577,12 +577,12 @@ public class Concurso {
 				novo.setTelefone(telefone);
 				valido = 1;
 			} else {
-				System.out.println("Número de telefone inválido!");
+				System.out.println("Numero de telefone invalido!");
 				telefone = entrada.nextLine();
 			}
 		}
 		int aux = 0;
-		System.out.println("Possui algum tipo de deficiência?\n1-Sim\n2-Não");
+		System.out.println("Possui algum tipo de deficiencia?\n1-Sim\n2-Nao");
 		while (aux == 0) {
 			try {
 				aux = entrada.nextInt();
@@ -597,16 +597,16 @@ public class Concurso {
 					novo.setDeficiencia(false);
 					break;
 				default:
-					System.out.println("Opção inválida!\n1-Sim\n2-Não");
+					System.out.println("Opçao invalida!\n1-Sim\n2-Nao");
 					aux = 0;
 					break;
 				}
 			} catch (InputMismatchException e) {
-				System.err.println("Não é permitido inserir letras, informe apenas números inteiros!");
+				System.err.println("Nao e permitido inserir letras, informe apenas numeros inteiros!");
 			}
 		}
 		aux = 0;
-		System.out.println("Deseja solicitar isenção de taxa?\n1-Sim\n2-Não");
+		System.out.println("Deseja solicitar isencao de taxa?\n1-Sim\n2-Nao");
 		while (aux == 0) {
 			try {
 				aux = entrada.nextInt();
@@ -618,12 +618,12 @@ public class Concurso {
 					novo.setSolicitaIsencao(false);
 					break;
 				default:
-					System.out.println("Opção inválida!\n1-Sim\n2-Não");
+					System.out.println("Opcao invalida!\n1-Sim\n2-Nao");
 					aux = 0;
 					break;
 				}
 			} catch (InputMismatchException e) {
-				System.err.println("Não é permitido inserir letras, informe apenas números inteiros!");
+				System.err.println("Nao e permitido inserir letras, informe apenas numeros inteiros!");
 				aux = entrada.nextInt();
 			}
 		}
@@ -632,7 +632,7 @@ public class Concurso {
 		novo.setTaxaPaga(false);
 		System.out.println("\n");
 		novo.confirmacao();
-		System.out.println("\nInscrição realizada com sucesso!\n");
+		System.out.println("\nInscricao realizada com sucesso!\n");
 		this.participantes.add(novo);
 	}
 	
@@ -680,7 +680,7 @@ public class Concurso {
 			this.relatorioParticipantes();
 			break;
 		default:
-			System.out.println("Opção Inválida!");
+			System.out.println("Opcao Invalida!");
 		}
 	}
 	
@@ -688,7 +688,7 @@ public class Concurso {
 		Scanner entrada = new Scanner(System.in);
 		int i = 1;
 		Participante part = null;
-		System.out.println("Escolha o participante ao qual será associado o pagamento:");
+		System.out.println("Escolha o participante ao qual sera associado o pagamento:");
 		for (Participante partic : this.participantes){
 			System.out.println(i + " - " + partic.getNome() + "\nCPF: " + partic.getCpf());
 		}
@@ -696,11 +696,11 @@ public class Concurso {
 		try{
 			part = this.participantes.get(selecionado);
 		} catch (IndexOutOfBoundsException e){
-			System.out.println("Participante inválido! Retornando ao menu principal...");
+			System.out.println("Participante invalido! Retornando ao menu principal...");
 			return;
 		}
-		if (part.isTaxaPaga() == true) System.out.println("Este participante já pagou a taxa");
-		else if (part.isIsentoTaxa() == true) System.out.println("Este participante está isento de taxa!");
+		if (part.isTaxaPaga() == true) System.out.println("Este participante ja pagou a taxa");
+		else if (part.isIsentoTaxa() == true) System.out.println("Este participante esta isento de taxa!");
 		else {
 			part.setTaxaPaga(true);
 			part.setAptidao(true);
@@ -712,7 +712,7 @@ public class Concurso {
 		Scanner entrada = new Scanner(System.in);
 		int i = 1;
 		Participante part = null;
-		System.out.println("Escolha o participante ao qual será associado o pagamento:");
+		System.out.println("Escolha o participante ao qual sera associado o pagamento:");
 		for (Participante partic : this.participantes){
 			System.out.println(i + " - " + partic.getNome() + "\nCPF: " + partic.getCpf());
 		}
@@ -720,15 +720,15 @@ public class Concurso {
 		try{
 			part = this.participantes.get(selecionado);
 		} catch (IndexOutOfBoundsException e){
-			System.out.println("Participante inválido! Retornando ao menu principal...");
+			System.out.println("Participante invalido! Retornando ao menu principal...");
 			return;
 		}
-		if (part.getSolicitaIsencao() == false) System.out.println("Este participante não solicitou isenção!");
-		else if (part.isIsentoTaxa() == true) System.out.println("Este participante já foi isento da taxa!");
+		if (part.getSolicitaIsencao() == false) System.out.println("Este participante nao solicitou isencao!");
+		else if (part.isIsentoTaxa() == true) System.out.println("Este participante ja foi isento da taxa!");
 		else{
 			part.setIsentoTaxa(true);
 			part.setAptidao(true);
-			System.out.println("Isenção registrada com sucesso!");
+			System.out.println("Isencao registrada com sucesso!");
 		}
 	}
 
