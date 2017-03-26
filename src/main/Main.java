@@ -31,7 +31,7 @@ public class Main {
 		ArrayList<Concurso> concursos = new ArrayList<>();
 		ArrayList<Docente> docentes = new ArrayList<>();
 
-		// Cria 3 servidores e 3 docentes aleatorios s√≥ pra testar
+		// Cria 3 servidores e 3 docentes aleatorios s√É¬≥ pra testar
 		for (int i = 0; i < 3; i++) {
 			Docente aux1 = new Docente();
 			if (i == 0) {
@@ -39,7 +39,7 @@ public class Main {
 			} else if (i == 1) {
 				aux1.setNome("Leony");
 			} else {
-				aux1.setNome("VitÛria");
+				aux1.setNome("Vit√≥ria");
 			}
 			docentes.add(aux1);
 		}
@@ -58,7 +58,7 @@ public class Main {
 		int aux = 0;
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
-			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Sair\n5: Adicionar Participantes\n6: Imrpimir relatÛrios\n7: Associar taxa de pagamento ou isenÁ„o de taxa a um participante\n");
+			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Adicionar Participantes\n5: Imrpimir relatorios\n6: Associar taxa de pagamento ou isencao de taxa a um participante\n7: Criar convite para composicao de banca\n8:Sair\n");
 			System.out.print("Digite um numero com a opcao desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
@@ -83,25 +83,22 @@ public class Main {
 				aux = user.nextInt();
 				concursos.get(aux).criarEdital();
 				break;
-				
-			case 4:
-				aux = 10;
-				break;
-			case 5:
+			
+			case 6:
 				Concurso selecionado = selecionaConcurso(concursos);
 				if (selecionado != null) {
 					selecionado.adicionarParticipante();
 					user.nextLine();
 				}
 				break;
-			case 6:
+			case 7:
 				selecionado = selecionaConcurso(concursos);
 				if (selecionado != null) selecionado.selecionaRelatorio();
 				break;
-			case 7:
+			case 8:
 				selecionado = selecionaConcurso(concursos);
 				if (selecionado != null) {
-					System.out.println("Deseja:\n1-Validar uma taxa de pagamento\n2-Adicionar isenÁ„o\n");
+					System.out.println("Deseja:\n1-Validar uma taxa de pagamento\n2-Adicionar isencao\n");
 					int opcao = user.nextInt();
 					switch(opcao){
 					case 1:
@@ -110,9 +107,13 @@ public class Main {
 					case 2:
 						break;
 					default:
-						System.out.println("OpÁ„o inv·lida! Voltando ao menu principal...");
+						System.out.println("Op√ß√£o invalida! Voltando ao menu principal...");
 					}
 				}
+				break;
+			case 9:
+				aux = 10;
+				break;
 			default:
 				System.out.println("Opcao invalida");
 				break;
