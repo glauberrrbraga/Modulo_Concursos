@@ -30,7 +30,8 @@ public class Concurso {
 	private Edital edital;
 
 	/* Contrutor:
-	 * Inicializa supervisor, banca e edital
+	 * Inicializa supervisor, participantes, banca e edital
+	 * Incializa datas como nulo
 	 * Incrementa a quantidade de concursos cadastrados */
 	Concurso() {
 		concursosCadastrados++;
@@ -134,7 +135,8 @@ public class Concurso {
 		return dataTerminoInscricao;
 	}
 
-	public boolean setDataTerminoInscricao(String aux1, SimpleDateFormat format, Date dateaux) throws ParseException {
+	public boolean setDataTerminoInscricao(String aux1, Date dateaux) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date newdate = new Date(format.parse(aux1).getTime());
 
 		if (newdate.compareTo(this.getDataInicioInscricao()) < 0) {
@@ -155,7 +157,8 @@ public class Concurso {
 		return dataConcurso;
 	}
 
-	public boolean setDataConcurso(String aux1, SimpleDateFormat format, Date dateaux) throws ParseException {
+	public boolean setDataConcurso(String aux1, Date dateaux) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date date2 = new Date(format.parse(aux1).getTime());
 
 		if (date2.compareTo(dateaux) < 0) {
@@ -222,7 +225,7 @@ public class Concurso {
 		gravarArq.println("Concurso" + this.getNome());
 		gravarArq.println("Id: " + this.getId());
 		gravarArq.println("Comissao organizadora: " + this.getComissao());
-		gravarArq.println("Taxa de incri√ß√£o: " + this.getValorInscricao());
+		gravarArq.println("Taxa de incri√É¬ß√É¬£o: " + this.getValorInscricao());
 		gravarArq.println(this.edital.getDetalhes());
 		gravarArq.println("Data de realizacao do concurso: ");
 		gravarArq.println(format.format(this.getDataConcurso()));
@@ -267,11 +270,11 @@ public class Concurso {
 							System.out.print("Nova data de realizacao do concurso(dd/mm/aaaa): ");
 							try{
 								aux1 = sc.nextLine();
-								this.setDataConcurso(aux1, format, dateaux);
+								this.setDataConcurso(aux1, dateaux);
 							} catch (Exception e){
 								aux1 = sc.nextLine();
 								System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
-								this.setDataConcurso(aux1, format, dateaux);
+								this.setDataConcurso(aux1, dateaux);
 							}
 							break;
 						case 2:
@@ -279,11 +282,11 @@ public class Concurso {
 							System.out.print("Nova data de termino das inscricoes(dd/mm/aaaa): ");
 							try{
 								aux1 = sc.nextLine();
-								this.setDataTerminoInscricao(aux1, format, dateaux);
+								this.setDataTerminoInscricao(aux1, dateaux);
 							} catch (Exception e){
 								System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
 								aux1 = sc.nextLine();
-								this.setDataTerminoInscricao(aux1, format, dateaux);
+								this.setDataTerminoInscricao(aux1, dateaux);
 							}
 							break;
 						case 3:
@@ -299,7 +302,7 @@ public class Concurso {
 							}
 							break;
 						default:
-							System.out.println("Opcao Invalida. Deseja tentar novamente?\n1. Sim\n0. N„o");
+							System.out.println("Opcao Invalida. Deseja tentar novamente?\n1. Sim\n0. N√£o");
 					}
 				}while(entrada != 0);
 				break;
@@ -360,6 +363,8 @@ public class Concurso {
 		}
 	}
 
+	/* Agendamento de concursos
+	 * Cria um concurso e seta todas as informa√ß√µes b√°sicas */
 	public static Concurso agendamento(ArrayList<Docente> docentes, ArrayList<Servidor> servidores)
 			throws ParseException, IOException {
 		System.out.println("Agendamento.\nAntes, e necessario cadastrar um novo concurso");
@@ -408,11 +413,11 @@ public class Concurso {
 		do {
 			try {
 				String aux1 = scan.nextLine();
-				auxdate = aux.setDataTerminoInscricao(aux1, format, dateaux);
+				auxdate = aux.setDataTerminoInscricao(aux1, dateaux);
 			} catch (Exception e) {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
 				String aux1 = scan.nextLine();
-				auxdate = aux.setDataTerminoInscricao(aux1, format, dateaux);
+				auxdate = aux.setDataTerminoInscricao(aux1, dateaux);
 			}
 		} while (!auxdate);
 		System.out.println(format.format(aux.getDataTerminoInscricao()));
@@ -420,11 +425,11 @@ public class Concurso {
 		do {
 			try {
 				String aux1 = scan.nextLine();
-				auxdate = aux.setDataConcurso(aux1, format, dateaux);
+				auxdate = aux.setDataConcurso(aux1, dateaux);
 			} catch (Exception e) {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/MM/aaa): ");
 				String aux1 = scan.nextLine();
-				auxdate = aux.setDataConcurso(aux1, format, dateaux);
+				auxdate = aux.setDataConcurso(aux1, dateaux);
 			}
 		} while (!auxdate);
 		System.out.println(format.format(aux.getDataConcurso()));
@@ -464,16 +469,18 @@ public class Concurso {
 		return aux;
 	}
 
+	// Cria√ß√£o de convite para composi√ß√£o da banca
 	public void criarConviteBanca(ArrayList<Docente> docentes) throws IOException{
 		Scanner scn = new Scanner(System.in);
-		FileWriter convite = new FileWriter(new File("C:\\Users\\Glauber Braga\\Desktop\\Convite.txt"));
+		File arquivo = new File("C:\\Users\\Glauber Braga\\Desktop\\Convite.txt");
+		FileWriter convite = new FileWriter(arquivo);
 		PrintWriter gravarArq = new PrintWriter(convite);
 		int entrada;
 		boolean flag = false;
 		
-		System.out.println("Criar convite para composiÁ„o de banca.");
+		System.out.println("Criar convite para composi√ß√£o de banca.");
 		System.out.println("Digite o id do docente para o qual deseja enviar o convite para compor a banca");
-		System.out.println("\nDocentes disponÌveis:");
+		System.out.println("\nDocentes dispon√≠veis:");
 		for (int i = 0; i < docentes.size(); i++) {
 			if(!this.getBanca().contains(docentes.get(i))){
 				System.out.println(i + ": " + docentes.get(i).getNome());
@@ -481,50 +488,63 @@ public class Concurso {
 		}
 		entrada = scn.nextInt();
 		
-		//ComeÁa a escrita no arquivo
+		//Come√ßa a escrita no arquivo
 		gravarArq.println("Caro " + this.getBanca().get(entrada).getNome());
 		
 		System.out.println("Selecione a opcao desejada:\n1: Utilizar um convite preescrito\n2: Escrever um novo convite");
 		entrada = scn.nextInt();
+		scn.nextLine();
 		
 		do{
 			switch(entrada){
 			case 1:
 				// Convite predeterminado
-				gravarArq.print("\n 		O Instituto de Computacao (IC) da Universidade Federal de Alagoas (UFAL) tem o prazer de convid·-lo para compor a banca de correcao do concurso ");
-				gravarArq.println(this.getNome() + " que ser· realizado no dia " + this.getDataConcurso());
-				gravarArq.println(" 		Pedimos encarecidamente que nos dÍ uma confirmacao o mais breviamente possivel.");
+				gravarArq.print("\n 		O Instituto de Computacao (IC) da Universidade Federal de Alagoas (UFAL) tem o prazer de convid√°-lo para compor a banca de correcao do concurso ");
+				gravarArq.println(this.getNome() + " que ser√° realizado no dia " + this.getDataConcurso());
+				gravarArq.println(" 		Pedimos encarecidamente que nos d√™ uma confirmacao o mais breviamente possivel.");
 				gravarArq.println("\n 										Atenciosamente");
 				gravarArq.println("			 										Secretaria do Instituto de Computacao");
+				convite.close();
 				flag = true;
 				break;
 			case 2:
 				// Convite feito pela secretaria
+				System.out.println("Digite '10' para cancelar\nDigite '99' para terminar");
+				while(!scn.hasNextInt()){
+					gravarArq.println(scn.nextLine());
+				}
+				entrada = scn.nextInt();
+				if(entrada == 10){
+					arquivo.delete();
+				}
+				else{
+					convite.close();
+				}
 				flag = true;
 				break;
 			default:
 				System.out.println("Opcao invalida. Por favor, tente novamente.");
 			}
 		}while(!flag);
-		
-		convite.close();
 	}
-		public void adicionarParticipante() {
+
+	
+	public void adicionarParticipante() {
 		Scanner entrada = new Scanner(System.in);
 		Participante novo = new Participante();
 		System.out.println("Nome completo: ");
 		novo.setNome(entrada.nextLine());
-		System.out.println("CPF (sem pontos e sem traÁo):");
+		System.out.println("CPF (sem pontos e sem tra√ßo):");
 		String newCPF = entrada.nextLine();
 		while (novo.validaCPF(newCPF) != true){
-			System.out.println("CPF inv·lido! Por favor, digite um n˙mero de CPF v·lido");
+			System.out.println("CPF inv√°lido! Por favor, digite um n√∫mero de CPF v√°lido");
 			newCPF = entrada.nextLine();
 		}
 		novo.setCpf(newCPF);
 		System.out.println("Registro Geral: ");
 		novo.setRg(entrada.nextInt());
 		entrada.nextLine();
-		System.out.println("”rg„o Emissor: ");
+		System.out.println("√ìrg√£o Emissor: ");
 		novo.setOrgaoEmissorRG(entrada.nextLine());
 		System.out.println("Data de Nascimento (dd/mm/aaaa): ");
 		int valida = 0;
@@ -541,11 +561,11 @@ public class Concurso {
 				System.out.print("Formato incorreto. Digite a data na forma (dd/mm/aaaa): ");
 			}
 		}
-		System.out.println("Nome da m„e: ");
+		System.out.println("Nome da m√£e: ");
 		novo.setNomeMae(entrada.nextLine());
 		System.out.println("Naturalidade: ");
 		novo.setNaturalidade(entrada.nextLine());
-		System.out.println("EndereÁo: ");
+		System.out.println("Endere√ßo: ");
 		novo.setEndereco(entrada.nextLine());
 		System.out.println("Email: ");
 		novo.setEmail(entrada.nextLine());
@@ -557,12 +577,12 @@ public class Concurso {
 				novo.setTelefone(telefone);
 				valido = 1;
 			} else {
-				System.out.println("N˙mero de telefone inv·lido!");
+				System.out.println("N√∫mero de telefone inv√°lido!");
 				telefone = entrada.nextLine();
 			}
 		}
 		int aux = 0;
-		System.out.println("Possui algum tipo de deficiÍncia?\n1-Sim\n2-N„o");
+		System.out.println("Possui algum tipo de defici√™ncia?\n1-Sim\n2-N√£o");
 		while (aux == 0) {
 			try {
 				aux = entrada.nextInt();
@@ -570,23 +590,23 @@ public class Concurso {
 				case 1:
 					novo.setDeficiencia(true);
 					entrada.nextLine();
-					System.out.println("Qual(is) o(s) tipo(s) de deficiÍncia do candidato?");
+					System.out.println("Qual(is) o(s) tipo(s) de defici√™ncia do candidato?");
 					novo.setAcessibilidade(entrada.nextLine());
 					break;
 				case 2:
 					novo.setDeficiencia(false);
 					break;
 				default:
-					System.out.println("OpÁ„o inv·lida!\n1-Sim\n2-N„o");
+					System.out.println("Op√ß√£o inv√°lida!\n1-Sim\n2-N√£o");
 					aux = 0;
 					break;
 				}
 			} catch (InputMismatchException e) {
-				System.err.println("N„o È permitido inserir letras, informe apenas n˙meros inteiros!");
+				System.err.println("N√£o √© permitido inserir letras, informe apenas n√∫meros inteiros!");
 			}
 		}
 		aux = 0;
-		System.out.println("Deseja solicitar isenÁ„o de taxa?\n1-Sim\n2-N„o");
+		System.out.println("Deseja solicitar isen√ß√£o de taxa?\n1-Sim\n2-N√£o");
 		while (aux == 0) {
 			try {
 				aux = entrada.nextInt();
@@ -598,12 +618,12 @@ public class Concurso {
 					novo.setSolicitaIsencao(false);
 					break;
 				default:
-					System.out.println("OpÁ„o inv·lida!\n1-Sim\n2-N„o");
+					System.out.println("Op√ß√£o inv√°lida!\n1-Sim\n2-N√£o");
 					aux = 0;
 					break;
 				}
 			} catch (InputMismatchException e) {
-				System.err.println("N„o È permitido inserir letras, informe apenas n˙meros inteiros!");
+				System.err.println("N√£o √© permitido inserir letras, informe apenas n√∫meros inteiros!");
 				aux = entrada.nextInt();
 			}
 		}
@@ -612,7 +632,7 @@ public class Concurso {
 		novo.setTaxaPaga(false);
 		System.out.println("\n");
 		novo.confirmacao();
-		System.out.println("\nInscriÁ„o realizada com sucesso!\n");
+		System.out.println("\nInscri√ß√£o realizada com sucesso!\n");
 		this.participantes.add(novo);
 	}
 	
@@ -660,14 +680,15 @@ public class Concurso {
 			this.relatorioParticipantes();
 			break;
 		default:
-			System.out.println("OpÁ„o Inv·lida!");
+			System.out.println("Op√ß√£o Inv√°lida!");
 		}
 	}
+	
 	public void pagamentoTaxa(){
 		Scanner entrada = new Scanner(System.in);
 		int i = 1;
 		Participante part = null;
-		System.out.println("Escolha o participante ao qual ser· associado o pagamento:");
+		System.out.println("Escolha o participante ao qual ser√° associado o pagamento:");
 		for (Participante partic : this.participantes){
 			System.out.println(i + " - " + partic.getNome() + "\nCPF: " + partic.getCpf());
 		}
@@ -675,22 +696,23 @@ public class Concurso {
 		try{
 			part = this.participantes.get(selecionado);
 		} catch (IndexOutOfBoundsException e){
-			System.out.println("Participante inv·lido! Retornando ao menu principal...");
+			System.out.println("Participante inv√°lido! Retornando ao menu principal...");
 			return;
 		}
-		if (part.isTaxaPaga() == true) System.out.println("Este participante j· pagou a taxa");
-		else if (part.isIsentoTaxa() == true) System.out.println("Este participante est· isento de taxa!");
+		if (part.isTaxaPaga() == true) System.out.println("Este participante j√° pagou a taxa");
+		else if (part.isIsentoTaxa() == true) System.out.println("Este participante est√° isento de taxa!");
 		else {
 			part.setTaxaPaga(true);
 			part.setAptidao(true);
 			System.out.println("Pagamento registrado com sucesso!");
 		}
 	}
+	
 	public void isencaoTaxa() {
 		Scanner entrada = new Scanner(System.in);
 		int i = 1;
 		Participante part = null;
-		System.out.println("Escolha o participante ao qual ser· associado o pagamento:");
+		System.out.println("Escolha o participante ao qual ser√° associado o pagamento:");
 		for (Participante partic : this.participantes){
 			System.out.println(i + " - " + partic.getNome() + "\nCPF: " + partic.getCpf());
 		}
@@ -698,15 +720,16 @@ public class Concurso {
 		try{
 			part = this.participantes.get(selecionado);
 		} catch (IndexOutOfBoundsException e){
-			System.out.println("Participante inv·lido! Retornando ao menu principal...");
+			System.out.println("Participante inv√°lido! Retornando ao menu principal...");
 			return;
 		}
-		if (part.getSolicitaIsencao() == false) System.out.println("Este participante n„o solicitou isenÁ„o!");
-		else if (part.isIsentoTaxa() == true) System.out.println("Este participante j· foi isento da taxa!");
+		if (part.getSolicitaIsencao() == false) System.out.println("Este participante n√£o solicitou isen√ß√£o!");
+		else if (part.isIsentoTaxa() == true) System.out.println("Este participante j√° foi isento da taxa!");
 		else{
 			part.setIsentoTaxa(true);
 			part.setAptidao(true);
-			System.out.println("IsenÁ„o registrada com sucesso!");
+			System.out.println("Isen√ß√£o registrada com sucesso!");
 		}
 	}
+
 }
