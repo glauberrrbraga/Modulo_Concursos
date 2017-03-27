@@ -84,18 +84,18 @@ public class Main {
 				concursos.get(aux).criarEdital();
 				break;
 			
-			case 6:
+			case 4:
 				Concurso selecionado = selecionaConcurso(concursos);
 				if (selecionado != null) {
 					selecionado.adicionarParticipante();
 					user.nextLine();
 				}
 				break;
-			case 7:
+			case 5:
 				selecionado = selecionaConcurso(concursos);
 				if (selecionado != null) selecionado.selecionaRelatorio();
 				break;
-			case 8:
+			case 6:
 				selecionado = selecionaConcurso(concursos);
 				if (selecionado != null) {
 					System.out.println("Deseja:\n1-Validar uma taxa de pagamento\n2-Adicionar isencao\n");
@@ -110,6 +110,14 @@ public class Main {
 						System.out.println("Opção invalida! Voltando ao menu principal...");
 					}
 				}
+				break;
+			case 7:
+				for(int i = 0; i < concursos.size(); i++){
+					System.out.println(i + ": " + concursos.get(i).getNome());					
+				}
+				System.out.print("Selecione o concurso: ");
+				aux = user.nextInt();
+				concursos.get(aux).criarConviteBanca(docentes);
 				break;
 			case 9:
 				aux = 10;
