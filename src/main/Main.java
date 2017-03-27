@@ -95,8 +95,7 @@ public class Main {
 				}
 				break;
 			case 5:
-				selecionado = selecionaConcurso(concursos);
-				if (selecionado != null) selecionado.selecionaRelatorio();
+				Concurso.selecionaRelatorio(concursos);
 				break;
 			case 6:
 				selecionado = selecionaConcurso(concursos);
