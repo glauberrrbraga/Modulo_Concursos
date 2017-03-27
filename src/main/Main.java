@@ -58,7 +58,7 @@ public class Main {
 		int aux = 0;
 		Scanner user = new Scanner(System.in);
 		while (aux != 10) {
-			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Adicionar Participantes\n5: Imrpimir relatorios\n6: Associar taxa de pagamento ou isencao de taxa a um participante\n7: Criar convite para composicao de banca\n8:Sair\n");
+			System.out.println("1: Agendamento\n2: Editar concursos\n3: Retificar edital\n4: Adicionar Participantes\n5: Imrpimir relatorios\n6: Associar taxa de pagamento ou isencao de taxa a um participante\n7: Criar convite para composicao de banca\n8: Exclusão de participantes\n9: Sair\n");
 			System.out.print("Digite um numero com a opcao desejada: ");
 			aux = user.nextInt();
 			switch (aux) {
@@ -118,6 +118,14 @@ public class Main {
 				System.out.print("Selecione o concurso: ");
 				aux = user.nextInt();
 				concursos.get(aux).criarConviteBanca(docentes);
+				break;
+			case 8:
+				selecionado = selecionaConcurso(concursos);
+				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+				GregorianCalendar data = new GregorianCalendar();
+				String date = format.format(data.getTime());
+				Date dateaux = new Date(format.parse(date).getTime());
+				if(dateaux.after(selecionado.getDataTerminoInscricao())) selecionado.desclassificaParticipantes();
 				break;
 			case 9:
 				aux = 10;
