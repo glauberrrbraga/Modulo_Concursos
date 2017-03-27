@@ -302,7 +302,7 @@ public class Concurso {
 							}
 							break;
 						default:
-							System.out.println("Opcao Invalida. Deseja tentar novamente?\n1. Sim\n0. NÃ£o");
+							System.out.println("Opcao Invalida. Deseja tentar novamente?\n1. Sim\n0. Não");
 					}
 				}while(entrada != 0);
 				break;
@@ -364,7 +364,7 @@ public class Concurso {
 	}
 
 	/* Agendamento de concursos
-	 * Cria um concurso e seta todas as informaÃ§Ãµes bÃ¡sicas */
+	 * Cria um concurso e seta todas as informações básicas */
 	public static Concurso agendamento(ArrayList<Docente> docentes, ArrayList<Servidor> servidores)
 			throws ParseException, IOException {
 		System.out.println("Agendamento.\nAntes, e necessario cadastrar um novo concurso");
@@ -469,7 +469,7 @@ public class Concurso {
 		return aux;
 	}
 
-	// CriaÃ§Ã£o de convite para composiÃ§Ã£o da banca
+	// Criação de convite para composição da banca
 	public void criarConviteBanca(ArrayList<Docente> docentes) throws IOException{
 		Scanner scn = new Scanner(System.in);
 		File arquivo = new File("C:\\Users\\Glauber Braga\\Desktop\\Convite.txt");
@@ -478,9 +478,9 @@ public class Concurso {
 		int entrada;
 		boolean flag = false;
 		
-		System.out.println("Criar convite para composiÃ§Ã£o de banca.");
+		System.out.println("Criar convite para composição de banca.");
 		System.out.println("Digite o id do docente para o qual deseja enviar o convite para compor a banca");
-		System.out.println("\nDocentes disponÃ­veis:");
+		System.out.println("\nDocentes disponíveis:");
 		for (int i = 0; i < docentes.size(); i++) {
 			if(!this.getBanca().contains(docentes.get(i))){
 				System.out.println(i + ": " + docentes.get(i).getNome());
@@ -488,7 +488,7 @@ public class Concurso {
 		}
 		entrada = scn.nextInt();
 		
-		//ComeÃ§a a escrita no arquivo
+		//Começa a escrita no arquivo
 		gravarArq.println("Caro " + this.getBanca().get(entrada).getNome());
 		
 		System.out.println("Selecione a opcao desejada:\n1: Utilizar um convite preescrito\n2: Escrever um novo convite");
@@ -499,9 +499,9 @@ public class Concurso {
 			switch(entrada){
 			case 1:
 				// Convite predeterminado
-				gravarArq.print("\n 		O Instituto de Computacao (IC) da Universidade Federal de Alagoas (UFAL) tem o prazer de convidÃ¡-lo para compor a banca de correcao do concurso ");
-				gravarArq.println(this.getNome() + " que serÃ¡ realizado no dia " + this.getDataConcurso());
-				gravarArq.println(" 		Pedimos encarecidamente que nos dÃª uma confirmacao o mais breviamente possivel.");
+				gravarArq.print("\n 		O Instituto de Computacao (IC) da Universidade Federal de Alagoas (UFAL) tem o prazer de convidá-lo para compor a banca de correcao do concurso ");
+				gravarArq.println(this.getNome() + " que será realizado no dia " + this.getDataConcurso());
+				gravarArq.println(" 		Pedimos encarecidamente que nos dê uma confirmacao o mais breviamente possivel.");
 				gravarArq.println("\n 										Atenciosamente");
 				gravarArq.println("			 										Secretaria do Instituto de Computacao");
 				convite.close();
@@ -528,13 +528,13 @@ public class Concurso {
 		}while(!flag);
 	}
 
-	
+	// Adiciona participante em determinado concurso
 	public void adicionarParticipante() {
 		Scanner entrada = new Scanner(System.in);
 		Participante novo = new Participante();
 		System.out.println("Nome completo: ");
 		novo.setNome(entrada.nextLine());
-		System.out.println("CPF (sem pontos e sem traÃ§o):");
+		System.out.println("CPF (sem pontos e sem traço):");
 		String newCPF = entrada.nextLine();
 		while (novo.validaCPF(newCPF) != true){
 			System.out.println("CPF invalido! Por favor, digite um numero de CPF valido");
@@ -590,14 +590,14 @@ public class Concurso {
 				case 1:
 					novo.setDeficiencia(true);
 					entrada.nextLine();
-					System.out.println("Qual(is) o(s) tipo(s) de deficiÃªncia do candidato?");
+					System.out.println("Qual(is) o(s) tipo(s) de deficiência do candidato?");
 					novo.setAcessibilidade(entrada.nextLine());
 					break;
 				case 2:
 					novo.setDeficiencia(false);
 					break;
 				default:
-					System.out.println("OpÃ§ao invalida!\n1-Sim\n2-Nao");
+					System.out.println("Opçao invalida!\n1-Sim\n2-Nao");
 					aux = 0;
 					break;
 				}
@@ -636,14 +636,20 @@ public class Concurso {
 		this.participantes.add(novo);
 	}
 	
-	public void relatorioGeral() throws IOException {
+	// Gera num arquivo um relatório geral dos concursos cadastrados
+	public static void relatorioGeral(ArrayList<Concurso> concursos) throws IOException {
 		FileWriter arq = new FileWriter("C:\\Users\\leony\\Desktop\\Relatorio.txt");
 		PrintWriter gravarArq = new PrintWriter(arq);
-		gravarArq.println("Docentes na banca do concurso: " + this.banca.size() + "\n");
-		gravarArq.println("Participantes inscritos do concurso: " + this.participantes.size() + "\n");
+		gravarArq.println("Total de concursos: " + concursos.size() + "\n");
+		for(Concurso concurso : concursos){
+			gravarArq.println("Concurso nº: " + concurso.getId() + " - " + concurso.getNome());
+			gravarArq.println("Docentes na banca do concurso: " + concurso.banca.size() + "\n");
+			gravarArq.println("Participantes inscritos do concurso: " + concurso.participantes.size() + "\n\n");	
+		}
 		arq.close();
 	}
 	
+	// Gera num arquivo a relação dos professores componentes da banca de determinado concurso
 	public void relatorioBanca() throws IOException {
 		FileWriter arq = new FileWriter("C:\\Users\\leony\\Desktop\\Banca.txt");
 		PrintWriter gravarArq = new PrintWriter(arq);
@@ -656,6 +662,7 @@ public class Concurso {
 		arq.close();
 	}
 	
+	// Gera num arquivo a relação dos participantes de determinado concurso
 	public void relatorioParticipantes() throws IOException {
 		FileWriter arq = new FileWriter("C:\\Users\\leony\\Desktop\\Participantes.txt");
 		PrintWriter gravarArq = new PrintWriter(arq);
@@ -666,24 +673,27 @@ public class Concurso {
 		arq.close();
 	}
 	
-	public void selecionaRelatorio() throws IOException {
+	// Faz a seleção do relatório a ser gerado.
+	public static void selecionaRelatorio(ArrayList<Concurso> concursos) throws IOException {
 		Scanner entrada = new Scanner(System.in);
+		Concurso selecionado = Main.selecionaConcurso(concursos);
 		int escolha = entrada.nextInt();
 		switch(escolha){
 		case 1:
-			this.relatorioGeral();
+			relatorioGeral(concursos);
 			break;
 		case 2:
-			this.relatorioBanca();
+			if(selecionado != null) selecionado.relatorioBanca();
 			break;
 		case 3:
-			this.relatorioParticipantes();
+			if(selecionado != null) selecionado.relatorioParticipantes();
 			break;
 		default:
 			System.out.println("Opcao Invalida!");
 		}
 	}
 	
+	// Confirma a taxa de pagamentos de um participante no sistema
 	public void pagamentoTaxa(){
 		Scanner entrada = new Scanner(System.in);
 		int i = 1;
@@ -708,6 +718,7 @@ public class Concurso {
 		}
 	}
 	
+	// Aplica a isenção de taxa a um participante cuja solititação tenha sido aprovada
 	public void isencaoTaxa() {
 		Scanner entrada = new Scanner(System.in);
 		int i = 1;
@@ -730,6 +741,17 @@ public class Concurso {
 			part.setAptidao(true);
 			System.out.println("Isencao registrada com sucesso!");
 		}
+	}
+	
+	// Imprime num arquivo os participantes que não pagaram a taxa, ou não estão isentos
+	public void desclassificaParticipantes() throws IOException{
+		FileWriter arq = new FileWriter("C:\\Users\\leony\\Desktop\\Participantes Desclassificados.txt");
+		PrintWriter gravarArq = new PrintWriter(arq);
+		gravarArq.println("Participantes desclassificados do concurso\n");
+		for (Participante participante : this.participantes){
+			if(participante.isAptidao() == false) gravarArq.println(participante.getCpf() + " - " + participante.getNome());
+		}
+		arq.close();
 	}
 
 }
